@@ -1,7 +1,28 @@
-﻿@{
+﻿@model IEnumerable<LostPaw.Models.PetPost>
+@{
     ViewData["Title"] = "Posts";
 }
 
 <h1>Posts</h1>
 
 <p>Here I should display lost, found and adoption posts.</p>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn pastel-purple">New Post</a>
+}
+<div>
+    @foreach (var post in Model)
+    {
+        <div class="post">
+            <h2>@post.Title (@post.Type)</h2>
+            <p>@post.Description</p>
+            @if (!string.IsNullOrEmpty(post.ImageUrl))
+            {
+                <img src="@post.ImageUrl" alt="@post.Title" style="max-width: 200px;" />
+            }
+            <p><strong>Date Created:</strong> @post.DateCreated.ToShortDateString()</p>
+            <p><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToShortDateString() ?? "N/A")</p>
+        </div>
+    }
+</div>
