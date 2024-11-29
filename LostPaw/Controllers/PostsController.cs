@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using LostPaw.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using LostPaw.ViewModels;
 
 namespace LostPaw.Controllers
 {
@@ -36,31 +37,34 @@ namespace LostPaw.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create(PetPost post, IFormFile ImageFile)
+        public async Task<IActionResult> Create(CreatePostViewModel model, IFormFile ImageFile)
         {
             if (ModelState.IsValid)
             {
-                IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
+                //IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
               
-                foreach (var error in allErrors)
-                {
-                    Console.WriteLine(error.ErrorMessage); 
-                }
+                //foreach (var error in allErrors)
+                //{
+                //    Console.WriteLine(error.ErrorMessage); 
+                //}
 
                 var user = await _userManager.GetUserAsync(User);
-                post.UserId = user.Id;
-                post.DateCreated = DateTime.Now;
+
+                var post = new PetPost
+                {
+                    Type = model.Type,
+                    Title = model.Title,
+                    Description = model.Description,
+                    UserId = user.Id,
+                    DateCreated = DateTime.Now,
+                    DateLostFound = model.DateLostFound,
+                    ChipNumber = model.ChipNumber,
+                    Address = model.Address 
+                };
 
                 if (ImageFile != null)
                 {
                     post.ImageUrl = await SaveImageAsync(ImageFile);
-                }
-
-                if (post.Address != null)
-                {
-                    _context.Addresses.Add(post.Address);
-                    await _context.SaveChangesAsync();
-                    post.AddressId = post.Address.Id;
                 }
 
                 _context.Posts.Add(post);
@@ -68,7 +72,7 @@ namespace LostPaw.Controllers
 
                 return RedirectToAction("Index");
             }
-            return View("CreatePost", post);
+            return View(model);
         }
         private async Task<string> SaveImageAsync(IFormFile imageFile)
         {
