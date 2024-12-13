@@ -1,28 +1,33 @@
-﻿@model IEnumerable<LostPaw.Models.PetPost>
+﻿@model IEnumerable<LostPaw.ViewModels.DisplayPostListViewModel>
+
 @{
     ViewData["Title"] = "Posts";
 }
 
 <h1>Posts</h1>
 
-<p>Here I should display lost, found and adoption posts.</p>
-
 @if (User.Identity.IsAuthenticated)
 {
-    <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn pastel-purple">New Post</a>
+    <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn btn-primary">New Post</a>
 }
+
 <div>
     @foreach (var post in Model)
     {
-        <div class="post">
+        <div class="post-summary">
             <h2>@post.Title (@post.Type)</h2>
-            <p>@post.Description</p>
+            <p><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+
             @if (!string.IsNullOrEmpty(post.ImageUrl))
             {
                 <img src="@post.ImageUrl" alt="@post.Title" style="max-width: 200px;" />
             }
-            <p><strong>Date Created:</strong> @post.DateCreated.ToShortDateString()</p>
-            <p><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToShortDateString() ?? "N/A")</p>
+
+            <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">View Details</a>
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
+            }
         </div>
     }
 </div>

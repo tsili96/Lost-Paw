@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using LostPaw.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using LostPaw.ViewModels;
+using Microsoft.EntityFrameworkCore;
 
 namespace LostPaw.Controllers
 {
@@ -24,7 +25,14 @@ namespace LostPaw.Controllers
         [AllowAnonymous] 
         public IActionResult Index()
         {
-            var posts = _context.Posts.ToList();
+            var posts = _context.Posts.Select(post => new DisplayPostListViewModel
+            {
+                Id = post.Id,
+                Type = post.Type,
+                Title = post.Title,
+                DateLostFound = post.DateLostFound,
+                ImageUrl = post.ImageUrl
+            }).ToList();
             return View(posts);  
         }
 
@@ -76,16 +84,126 @@ namespace LostPaw.Controllers
         }
         private async Task<string> SaveImageAsync(IFormFile imageFile)
         {
-            var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
-            var path = Path.Combine("wwwroot/images", fileName);
-
-            using (var stream = new FileStream(path, FileMode.Create))
+            try
             {
-                await imageFile.CopyToAsync(stream);
+                var fileName = Guid.NewGuid().ToString() + Path.GetExtension(imageFile.FileName);
+                var folderPath = Path.Combine("wwwroot", "images");
+
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+
+                var path = Path.Combine(folderPath, fileName);
+
+                using (var stream = new FileStream(path, FileMode.Create))
+                {
+                    await imageFile.CopyToAsync(stream);
+                }
+
+                return "/images/" + fileName;
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error saving image: {ex.Message}");
+                return null; 
+            }
+        }
+
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var post = await _context.Posts
+                .Where(p => p.Id == id)
+                .Include(p => p.Address)  // Make sure the Address is included
+                .FirstOrDefaultAsync();
+
+            if (post == null)
+            {
+                return NotFound();
             }
 
-            return "/images/" + fileName;
+            var model = new UpdatePostViewModel
+            {
+                Id = post.Id,
+                Type = post.Type,
+                Title = post.Title,
+                Description = post.Description,
+                ChipNumber = post.ChipNumber,
+                DateLostFound = post.DateLostFound,
+                Address = post.Address // Make sure the Address is set
+            };
+
+            ViewData["CurrentImageUrl"] = post.ImageUrl; // Set current image URL
+
+            return View("EditPost",model);
         }
+
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(UpdatePostViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var post = await _context.Posts.FindAsync(model.Id);
+                if (post == null)
+                {
+                    return NotFound();
+                }
+
+                post.Type = model.Type;
+                post.Title = model.Title;
+                post.Description = model.Description;
+                post.ChipNumber = model.ChipNumber;
+                post.DateLostFound = model.DateLostFound;
+                post.Address = model.Address;
+
+                if (model.ImageFile != null)
+                {
+                    post.ImageUrl = await SaveImageAsync(model.ImageFile);
+                }
+
+                _context.Posts.Update(post);
+                await _context.SaveChangesAsync();
+
+                return RedirectToAction("Index");
+            }
+
+            var existingPost = await _context.Posts.FindAsync(model.Id);
+            ViewData["CurrentImageUrl"] = existingPost?.ImageUrl;
+
+            return View(model);
+        }
+
+
+        [AllowAnonymous]
+        public IActionResult Details(int id)
+        {
+            var post = _context.Posts
+                .Select(p => new DisplayPostViewModel
+                {
+                    Id = p.Id,
+                    Type = p.Type,
+                    Title = p.Title,
+                    Description = p.Description,
+                    ChipNumber = p.ChipNumber,
+                    DateLostFound = p.DateLostFound,
+                    ImageUrl = p.ImageUrl,
+                    Address = p.Address ?? new Address() 
+                })
+                .FirstOrDefault(p => p.Id == id);
+
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            return View("PostDetails", post);
+        }
+
+
     }
 
 }

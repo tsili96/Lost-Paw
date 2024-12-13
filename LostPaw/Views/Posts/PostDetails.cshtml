@@ -1,0 +1,29 @@
+﻿@model LostPaw.ViewModels.DisplayPostViewModel
+
+@{
+    ViewData["Title"] = "Post Details";
+}
+
+<h1>@Model.Title</h1>
+
+<p><strong>Type:</strong> @Model.Type</p>
+<p><strong>Description:</strong> @Model.Description</p>
+<p><strong>Chip Number:</strong> @(!string.IsNullOrEmpty(Model.ChipNumber) ? Model.ChipNumber : "N/A")</p>
+<p><strong>Date Lost/Found:</strong> @(Model.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+<p>
+    <strong>Address:</strong>
+    @Model.Address.Street, @Model.Address.Number,
+    @Model.Address.City, @Model.Address.PostalCode,
+    @Model.Address.Region, @Model.Address.Country
+</p>
+
+@if (!string.IsNullOrEmpty(Model.ImageUrl))
+{
+    <img src="@Model.ImageUrl" alt="@Model.Title" style="max-width: 400px;" />
+}
+
+<a asp-action="Index" class="btn btn-secondary">Back to Posts</a>
+@if (User.Identity.IsAuthenticated)
+{
+    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit Post</a>
+}
