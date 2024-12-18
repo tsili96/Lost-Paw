@@ -25,14 +25,17 @@ namespace LostPaw.Controllers
         [AllowAnonymous] 
         public IActionResult Index()
         {
-            var posts = _context.Posts.Select(post => new DisplayPostListViewModel
+            var posts = _context.Posts
+                .Include(p => p.User)
+                .Select(post => new DisplayPostListViewModel
             {
                 Id = post.Id,
                 Type = post.Type,
                 Title = post.Title,
                 DateLostFound = post.DateLostFound,
-                ImageUrl = post.ImageUrl
-            }).ToList();
+                ImageUrl = post.ImageUrl, 
+                Username = post.User.UserName
+                }).ToList();
             return View(posts);  
         }
 
@@ -182,6 +185,7 @@ namespace LostPaw.Controllers
         public IActionResult Details(int id)
         {
             var post = _context.Posts
+                .Include(p => p.User)
                 .Select(p => new DisplayPostViewModel
                 {
                     Id = p.Id,
@@ -191,7 +195,8 @@ namespace LostPaw.Controllers
                     ChipNumber = p.ChipNumber,
                     DateLostFound = p.DateLostFound,
                     ImageUrl = p.ImageUrl,
-                    Address = p.Address ?? new Address() 
+                    Address = p.Address ?? new Address(),
+                    Username = p.User.UserName
                 })
                 .FirstOrDefault(p => p.Id == id);
 

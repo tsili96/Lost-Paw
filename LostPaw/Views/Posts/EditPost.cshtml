@@ -5,96 +5,113 @@
     var currentImageUrl = ViewData["CurrentImageUrl"] as string;
 }
 
-<h1>Edit Post</h1>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-6 col-md-8 col-sm-10">
+            <h1 class="text-center mb-4">Edit Post</h1>
+            <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                <input type="hidden" asp-for="Id" />
 
-<form asp-action="Edit" method="post" enctype="multipart/form-data">
-    <input type="hidden" asp-for="Id" />
+                <!-- Title -->
+                <div class="form-group mb-3">
+                    <label asp-for="Title" class="form-label">Title</label>
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
 
-    <div class="form-group">
-        <label asp-for="Title">Title</label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+                <!-- Description -->
+                <div class="form-group mb-3">
+                    <label asp-for="Description" class="form-label">Description</label>
+                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <!-- Type -->
+                <div class="form-group mb-3">
+                    <label asp-for="Type" class="form-label">Type</label>
+                    <select asp-for="Type" class="form-control">
+                        <option value="Lost">Lost</option>
+                        <option value="Found">Found</option>
+                        <option value="Adoption">Adoption</option>
+                    </select>
+                </div>
+
+                <!-- Address -->
+                <h5 class="text-center mb-3"><b>Address Information</b></h5>
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.Street" class="form-label">Street</label>
+                        <input asp-for="Address.Street" class="form-control" />
+                        <span asp-validation-for="Address.Street" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.Number" class="form-label">Number</label>
+                        <input asp-for="Address.Number" class="form-control" />
+                        <span asp-validation-for="Address.Number" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.City" class="form-label">City</label>
+                        <input asp-for="Address.City" class="form-control" />
+                        <span asp-validation-for="Address.City" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.PostalCode" class="form-label">Postal Code</label>
+                        <input asp-for="Address.PostalCode" class="form-control" />
+                        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.Region" class="form-label">Region</label>
+                        <input asp-for="Address.Region" class="form-control" />
+                        <span asp-validation-for="Address.Region" class="text-danger"></span>
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label asp-for="Address.Country" class="form-label">Country</label>
+                        <input asp-for="Address.Country" class="form-control" />
+                        <span asp-validation-for="Address.Country" class="text-danger"></span>
+                    </div>
+                </div>
+                <br />
+                <!-- Chip Number -->
+                <div class="form-group mb-3">
+                    <label asp-for="ChipNumber" class="form-label">Chip Number</label>
+                    <input asp-for="ChipNumber" class="form-control" />
+                    <span asp-validation-for="ChipNumber" class="text-danger"></span>
+                </div>
+
+                <!-- Date Lost/Found -->
+                <div class="form-group mb-3">
+                    <label asp-for="DateLostFound" class="form-label">Date Lost/Found</label>
+                    <input asp-for="DateLostFound" type="date" class="form-control" />
+                </div>
+
+                <!-- Current Image -->
+                <div class="form-group mb-3 text-center">
+                    <label><b>Current Image</b></label>
+                    <br>
+                    @if (!string.IsNullOrEmpty(currentImageUrl))
+                    {
+                        <img src="@currentImageUrl" alt="Current Image" class="img-fluid mt-2" style="max-width: 200px;" />
+                    }
+                    else
+                    {
+                        <p>No image available</p>
+                    }
+                </div>
+
+                <!-- Update Image -->
+                <div class="form-group mb-3">
+                    <label asp-for="ImageFile" class="form-label">Update Image</label>
+                    <input asp-for="ImageFile" type="file" class="form-control" />
+                </div>
+
+                <!-- Buttons -->
+                <div class="text-center">
+                    <button type="submit" class="btn pastel-purple me-2">Save Changes</button>
+                    <a asp-action="Index" class="btn pastel-green">Cancel</a>
+                </div>
+            </form>
+        </div>
     </div>
-
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Type">Type</label>
-        <select asp-for="Type" class="form-control">
-            <option value="Lost">Lost</option>
-            <option value="Found">Found</option>
-            <option value="Adoption">Adoption</option>
-        </select>
-    </div>
-
-    <h3>Address Information</h3>
-    <div class="form-group">
-        <label asp-for="Address.Street">Street</label>
-        <input asp-for="Address.Street" class="form-control" />
-        <span asp-validation-for="Address.Street" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address.Number">Number</label>
-        <input asp-for="Address.Number" class="form-control" />
-        <span asp-validation-for="Address.Number" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address.City">City</label>
-        <input asp-for="Address.City" class="form-control" />
-        <span asp-validation-for="Address.City" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address.PostalCode">Postal Code</label>
-        <input asp-for="Address.PostalCode" class="form-control" />
-        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address.Region">Region</label>
-        <input asp-for="Address.Region" class="form-control" />
-        <span asp-validation-for="Address.Region" class="text-danger"></span>
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Address.Country">Country</label>
-        <input asp-for="Address.Country" class="form-control" />
-        <span asp-validation-for="Address.Country" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="ChipNumber">Chip Number</label>
-        <input asp-for="ChipNumber" class="form-control" />
-        <span asp-validation-for="ChipNumber" class="text-danger"></span>
-    </div>
-    <div class="form-group">
-        <label asp-for="DateLostFound">Date Lost/Found</label>
-        <input asp-for="DateLostFound" type="date" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label>Current Image</label>
-        @if (!string.IsNullOrEmpty(currentImageUrl))
-        {
-            <img src="@currentImageUrl" alt="Current Image" style="max-width: 200px;" />
-        }
-        else
-        {
-            <p>No image available</p>
-        }
-    </div>
+</div>
 
 
-    <div class="form-group">
-        <label asp-for="ImageFile">Update Image</label>
-        <input asp-for="ImageFile" type="file" class="form-control" />
-    </div>
-
-    <button type="submit" class="btn btn-primary">Save Changes</button>
-    <a asp-action="Index" class="btn btn-secondary ml-2">Cancel</a>
-</form>

@@ -4,30 +4,39 @@
     ViewData["Title"] = "Posts";
 }
 
-<h1>Posts</h1>
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <h1>Posts</h1>
+        @if (User.Identity.IsAuthenticated)
+        {
+            <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn pastel-purple">New Post</a>
+        }
+    </div>
 
-@if (User.Identity.IsAuthenticated)
-{
-    <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn btn-primary">New Post</a>
-}
-
-<div>
-    @foreach (var post in Model)
-    {
-        <div class="post-summary">
-            <h2>@post.Title (@post.Type)</h2>
-            <p><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
-
-            @if (!string.IsNullOrEmpty(post.ImageUrl))
-            {
-                <img src="@post.ImageUrl" alt="@post.Title" style="max-width: 200px;" />
-            }
-
-            <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-info">View Details</a>
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-warning">Edit</a>
-            }
-        </div>
-    }
+    <div class="row mt-4">
+        @foreach (var post in Model)
+        {
+            <div class="col-md-4">
+                <div class="card mb-4 shadow-sm">
+                    @if (!string.IsNullOrEmpty(post.ImageUrl))
+                    {
+                        <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title" style="height: 200px; object-fit: cover;" />
+                    }
+                    <div class="card-body">
+                        <h5 class="card-title">@post.Title</h5>
+                        <p class="card-text"><strong>Type:</strong> @post.Type</p>
+                        <p class="card-text"><strong>Posted by:</strong> @post.Username</p>
+                        <p class="card-text"><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <a asp-action="Details" asp-route-id="@post.Id" class="btn pastel-purple">View Details</a>
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="Edit" asp-route-id="@post.Id" class="btn pastel-green">Edit</a>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
 </div>

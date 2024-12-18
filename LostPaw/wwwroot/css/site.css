@@ -43,3 +43,20 @@ body {
         color: #7a58b8; /* Darker shade on hover */
         text-decoration: underline;
     }
+
+/* Pastel Green */
+.pastel-green {
+    background-color: #a5d6a7; /* Light pastel green */
+    color: white; /* Text color */
+    border: none;
+}
+
+    .pastel-green:hover {
+        background-color: #81c784; /* Slightly darker green */
+        color: white;
+    }
+
+.form-label {
+    font-weight: bold; /* Make labels bold */
+    color: black; /* Set label text color to black */
+}
