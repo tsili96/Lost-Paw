@@ -31,7 +31,11 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = req.Email, Email = req.Email, FullName = req.Fullname };
+                // Generate the username
+                var userCount = _userManager.Users.Count();
+                var generatedUserName = $"lostpawuser{userCount + 1}";
+
+                var user = new User { UserName = generatedUserName, Email = req.Email, FullName = req.FullName, PhoneNumber = req.PhoneNumber };
                 var result = await _userManager.CreateAsync(user, req.Password);
                 if (result.Succeeded)
                 {
@@ -59,10 +63,18 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(req.Email, req.Password, req.RememberMe, lockoutOnFailure: false);
-                //HttpContext.Session.Set("mykey", 1)
+                // Find the user by email
+                var user = await _userManager.FindByEmailAsync(req.Email);
+                if (user == null)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
+                    return View();
+                }
+
+                var result = await _signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: false);
                 if (result.Succeeded)
                 {
+                    await _signInManager.SignInAsync(user, req.RememberMe);
                     return RedirectToAction("Index", "Home");
                 }
                 if (result.IsLockedOut)
@@ -72,7 +84,6 @@ namespace LostPaw.Controllers
                 else
                 {
                     ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return View();
                 }
             }
             return View();

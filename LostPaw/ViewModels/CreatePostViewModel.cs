@@ -8,12 +8,12 @@ namespace LostPaw.ViewModels
         [Required]
         public PostType Type { get; set; }
         [Required]
-        [MaxLength(100)]
+        [MaxLength(300)]
         public string Title { get; set; }
         [Required]
         [MaxLength(500)]
         public string Description { get; set; }
-        public string ChipNumber { get; set; }
+        public string? ChipNumber { get; set; }
 
         [DataType(DataType.Date)]
         public DateTime? DateLostFound { get; set; }
