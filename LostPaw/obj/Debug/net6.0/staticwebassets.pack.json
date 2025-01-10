@@ -21,8 +21,16 @@
       "PackagePath": "staticwebassets\\images\\4e6d131c-658c-4e5c-bfdf-dad65a3379c3.jpg"
     },
     {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\8f17e27d-ed4b-4c93-92fd-3a598a465b52.jpg",
+      "PackagePath": "staticwebassets\\images\\8f17e27d-ed4b-4c93-92fd-3a598a465b52.jpg"
+    },
+    {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\8f4fe5ed-51e9-4b2e-b6e1-4550783836ae.jpg",
       "PackagePath": "staticwebassets\\images\\8f4fe5ed-51e9-4b2e-b6e1-4550783836ae.jpg"
+    },
+    {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\a02ec259-bfcd-4ba3-b2b4-4533703e9d32.jpg",
+      "PackagePath": "staticwebassets\\images\\a02ec259-bfcd-4ba3-b2b4-4533703e9d32.jpg"
     },
     {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\aaecaea3-819e-4bf5-aae8-82732692ebdd.jpg",
@@ -47,6 +55,10 @@
     {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\aboutus5.jpg",
       "PackagePath": "staticwebassets\\images\\aboutus5.jpg"
+    },
+    {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\b43c6faa-958b-4f54-85f5-9a897a11f346.jpeg",
+      "PackagePath": "staticwebassets\\images\\b43c6faa-958b-4f54-85f5-9a897a11f346.jpeg"
     },
     {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\logo.png",

@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<LostPaw.ViewModels.DisplayPostListViewModel>
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Posts";
@@ -29,7 +30,7 @@
                         <p class="card-text"><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <a asp-action="Details" asp-route-id="@post.Id" class="btn pastel-purple">View Details</a>
-                            @if (User.Identity.IsAuthenticated)
+                            @if (User.Identity.IsAuthenticated && post.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                             {
                                 <a asp-action="Edit" asp-route-id="@post.Id" class="btn pastel-green">Edit</a>
                             }

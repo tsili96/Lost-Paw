@@ -21,6 +21,71 @@ body {
     height: auto;
 }
 
+.navbar {
+    background-color: #FFB6C1; /* Pastel pink */
+}
+
+.pastel-purple {
+    background-color: #b39ddb; /* Light pastel purple */
+    color: white; /* Text color */
+    border: none;
+}
+
+    /* For hover effect */
+    .pastel-purple:hover {
+        background-color: #9e7cc6; /* Slightly darker purple */
+        color: white;
+    }
+
+/* For the "Register here" link */
+.register-link {
+    color: #9e7cc6; /* Light pastel purple color */
+}
+
+    .register-link:hover {
+        color: #7a58b8; /* Darker shade on hover */
+        text-decoration: underline;
+    }
+
+/* Pastel Green */
+.pastel-green {
+    background-color: #a5d6a7; /* Light pastel green */
+    color: white; /* Text color */
+    border: none;
+}
+
+    .pastel-green:hover {
+        background-color: #81c784; /* Slightly darker green */
+        color: white;
+    }
+
+.form-label {
+    font-weight: bold; /* Make labels bold */
+    color: black; /* Set label text color to black */
+}
+html {
+  font-size: 14px;
+}
+
+@media (min-width: 768px) {
+  html {
+    font-size: 16px;
+  }
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+  margin-bottom: 60px;
+}
+.logo {
+    width: 130px;
+    height: auto;
+}
+
 
 .pastel-purple {
     background-color: #b39ddb; /* Light pastel purple */

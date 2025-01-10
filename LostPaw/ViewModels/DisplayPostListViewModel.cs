@@ -11,5 +11,6 @@ namespace LostPaw.ViewModels
         public DateTime? DateLostFound { get; set; }
         public string ImageUrl { get; set; }
         public string Username { get; set; }
+        public string UserId { get; set; }
     }
 }

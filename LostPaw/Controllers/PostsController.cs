@@ -34,7 +34,8 @@ namespace LostPaw.Controllers
                 Title = post.Title,
                 DateLostFound = post.DateLostFound,
                 ImageUrl = post.ImageUrl, 
-                Username = post.User.UserName
+                Username = post.User.UserName, 
+                UserId = post.User.Id
                 }).ToList();
             return View(posts);  
         }
@@ -196,7 +197,8 @@ namespace LostPaw.Controllers
                     DateLostFound = p.DateLostFound,
                     ImageUrl = p.ImageUrl,
                     Address = p.Address ?? new Address(),
-                    Username = p.User.UserName
+                    Username = p.User.UserName,
+                    UserId = p.User.Id
                 })
                 .FirstOrDefault(p => p.Id == id);
 
@@ -208,6 +210,45 @@ namespace LostPaw.Controllers
             return View("PostDetails", post);
         }
 
+        public async Task<IActionResult> Delete(int id)
+        {
+            var post = await _context.Posts.Include(p => p.Address).FirstOrDefaultAsync(p => p.Id == id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = _userManager.GetUserId(User);
+            if (post.UserId != currentUserId)
+            {
+                return Forbid();  
+            }
+
+            return View(post);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var post = await _context.Posts.FindAsync(id);
+            if (post == null)
+            {
+                return NotFound();
+            }
+
+            var currentUserId = _userManager.GetUserId(User);
+            if (post.UserId != currentUserId)
+            {
+                return Forbid(); 
+            }
+
+            // Delete post
+            _context.Posts.Remove(post);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction(nameof(Index));
+        }
 
     }
 

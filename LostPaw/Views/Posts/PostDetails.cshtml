@@ -1,4 +1,5 @@
 ﻿@model LostPaw.ViewModels.DisplayPostViewModel
+@using System.Security.Claims
 
 @{
     ViewData["Title"] = "Post Details";
@@ -25,7 +26,7 @@
             
             <div class="mt-4">
                 <a asp-action="Index" class="btn pastel-purple">Back to Posts</a>
-                @if (User.Identity.IsAuthenticated)
+                @if (User.Identity.IsAuthenticated && Model.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                 {
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn pastel-green">Edit Post</a>
                 }
