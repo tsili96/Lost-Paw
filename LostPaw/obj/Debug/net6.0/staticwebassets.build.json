@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "vNj86sxNG9RunDXLzwBrfms10R7FaECVK6gccakXmS8=",
+  "Hash": "0qwVUb7EPMpdcewvjG5KszlDumCBPcomS1uWlK1m/LY=",
   "Source": "LostPaw",
   "BasePath": "_content/LostPaw",
   "Mode": "Default",
@@ -1409,6 +1409,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\pet4.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "images/profile_pics/ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg"
     },
     {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\site.js",

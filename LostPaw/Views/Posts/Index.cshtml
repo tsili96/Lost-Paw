@@ -26,7 +26,9 @@
                     <div class="card-body">
                         <h5 class="card-title">@post.Title</h5>
                         <p class="card-text"><strong>Type:</strong> @post.Type</p>
-                        <p class="card-text"><strong>Posted by:</strong> @post.Username</p>
+                        <p class="card-text"><strong>Posted by:</strong> 
+                            <a href="@Url.Action("Profile", "Profile", new { username = post.Username })">@post.Username</a>
+                        </p>
                         <p class="card-text"><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
                         <div class="d-flex justify-content-between align-items-center">
                             <a asp-action="Details" asp-route-id="@post.Id" class="btn pastel-purple">View Details</a>

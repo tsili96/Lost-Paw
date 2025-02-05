@@ -85,6 +85,10 @@
       "PackagePath": "staticwebassets\\images\\pet4.jpg"
     },
     {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg",
+      "PackagePath": "staticwebassets\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg"
+    },
+    {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },

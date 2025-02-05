@@ -1,0 +1,60 @@
+﻿@model LostPaw.ViewModels.ProfileViewModel
+@using System.Security.Claims
+
+@{
+    ViewData["Title"] = "User Profile";
+    bool isCurrentUser = User.Identity.IsAuthenticated && User.Identity.Name == Model.Username;
+}
+
+<div class="container my-4">
+    <div class="card shadow-lg p-4">
+        <div class="text-center">
+            <h1 class="mb-3">@Model.Username's Profile</h1>
+            <img src="@(!string.IsNullOrEmpty(Model.ProfilePicUrl) ? Model.ProfilePicUrl : "/images/default-profile.png")"
+                 alt="Profile Picture" class="rounded-circle" style="width: 150px; height: 150px; object-fit: cover;" />
+        </div>
+
+        <div class="mt-4">
+            <p><strong>Full Name:</strong> @Model.Fullname</p>
+            <p><strong>Email:</strong> @Model.Email</p>
+            <p><strong>Phone:</strong> @(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not provided" : Model.PhoneNumber)</p>
+        </div>
+
+        @if (isCurrentUser)
+        {
+            <div class="text-center mt-3">
+                <a asp-action="Edit" class="btn pastel-green">Edit Profile</a>
+            </div>
+        }
+    </div>
+
+    <h3 class="mt-5">User's Posts</h3>
+    <div class="row mt-3">
+        @if (Model.UserPosts.Any())
+        {
+            @foreach (var post in Model.UserPosts)
+            {
+                <div class="col-md-4">
+                    <div class="card mb-4 shadow-sm">
+                        @if (!string.IsNullOrEmpty(post.ImageUrl))
+                        {
+                            <img src="@post.ImageUrl" class="card-img-top" alt="@post.Title" style="height: 200px; object-fit: cover;" />
+                        }
+                        <div class="card-body">
+                            <h5 class="card-title">@post.Title</h5>
+                            <p class="card-text"><strong>Type:</strong> @post.Type</p>
+                            <p class="card-text"><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+                            <div class="d-flex justify-content-between align-items-center">
+                                <a asp-controller="Posts" asp-action="Details" asp-route-id="@post.Id" class="btn pastel-purple">View Details</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No posts found for this user.</p>
+        }
+    </div>
+</div>

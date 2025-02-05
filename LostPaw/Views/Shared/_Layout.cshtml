@@ -37,18 +37,24 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Contact" asp-action="Index">Contact</a>
                         </li>
-                        <li class="nav-item">
-                            @if (User.Identity.IsAuthenticated)
-                            {
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Profile", "Profile", new { username = User.Identity.Name })">My Profile</a>
+                            </li>
+
+                            <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
                                     <button type="submit" class="nav-link text-dark btn btn-link" style="border: none; background: none;">Logout</button>
                                 </form>
-                            }
-                            else
-                            {
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Sign In</a>
-                            }
-                        </li>
+                            </li>
+                        }
 
                     </ul>
                 </div>

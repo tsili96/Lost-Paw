@@ -1,0 +1,44 @@
+﻿@model LostPaw.ViewModels.EditProfileViewModel
+
+@{
+    ViewData["Title"] = "Edit Profile";
+}
+
+<div class="container my-4">
+    <div class="card shadow-lg p-4">
+        <h1 class="text-center mb-4">Edit Profile</h1>
+
+        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+            <div class="text-center">
+                <img src="@(!string.IsNullOrEmpty(Model.ProfilePicUrl) ? Model.ProfilePicUrl : "/images/default-profile.png")"
+                     alt="Profile Picture" class="rounded-circle mb-3"
+                     style="width: 150px; height: 150px; object-fit: cover;" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="ProfilePicUrl" class="form-label">Profile Picture</label>
+                <input type="file" name="ProfilePicture" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Fullname" class="form-label">Full Name</label>
+                <input asp-for="Fullname" class="form-control" />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Email</label>
+                <input asp-for="Email" class="form-control" readonly />
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+                <input asp-for="PhoneNumber" class="form-control" />
+            </div>
+
+            <div class="text-center">
+                <button type="submit" class="btn pastel-green">Save Changes</button>
+                <a asp-action="Profile" class="btn pastel-purple">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
