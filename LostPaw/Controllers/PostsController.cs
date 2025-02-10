@@ -21,26 +21,66 @@ namespace LostPaw.Controllers
             _context = context;
             _userManager = userManager;
         }
-        
-        [AllowAnonymous] 
-        public IActionResult Index()
+
+        [AllowAnonymous]
+        public IActionResult Index(string searchTerm, string postType, string dateFilter)
         {
-            var posts = _context.Posts
+            var postsQuery = _context.Posts
                 .Include(p => p.User)
                 .Select(post => new DisplayPostListViewModel
+                {
+                    Id = post.Id,
+                    Type = post.Type,
+                    Title = post.Title,
+                    DateLostFound = post.DateLostFound,
+                    ImageUrl = post.ImageUrl,
+                    Username = post.User.UserName,
+                    UserId = post.User.Id
+                });
+
+            if (!string.IsNullOrEmpty(searchTerm))
             {
-                Id = post.Id,
-                Type = post.Type,
-                Title = post.Title,
-                DateLostFound = post.DateLostFound,
-                ImageUrl = post.ImageUrl, 
-                Username = post.User.UserName, 
-                UserId = post.User.Id
-                }).ToList();
-            return View(posts);  
+                postsQuery = postsQuery.Where(p => p.Title.ToLower().Contains(searchTerm.ToLower()) || p.Username.ToLower() == searchTerm.ToLower());
+            }
+
+            //post type filter
+            if (!string.IsNullOrEmpty(postType))
+            {
+                if (Enum.TryParse<PostType>(postType, ignoreCase: true, out var type))
+                {
+                    postsQuery = postsQuery.Where(p => p.Type == type);
+                }
+            }
+
+            // date filter 
+            if (!string.IsNullOrEmpty(dateFilter))
+            {
+                if (dateFilter == "mostRecent")
+                {
+                    postsQuery = postsQuery.OrderByDescending(p => p.DateLostFound);
+                }
+                else if (dateFilter == "oldest")
+                {
+                    postsQuery = postsQuery.OrderBy(p => p.DateLostFound);
+                }
+            }
+
+            var posts = postsQuery.ToList();
+
+            ViewData["NoResults"] = !posts.Any();
+            ViewData["PostType"] = postType;
+            ViewData["DateFilter"] = dateFilter;
+
+            if (!posts.Any())
+            {
+                ViewData["NoResults"] = true;
+            }
+
+            return View(posts);
         }
 
-       
+
+
         [HttpGet]
         public IActionResult Create()
         {
