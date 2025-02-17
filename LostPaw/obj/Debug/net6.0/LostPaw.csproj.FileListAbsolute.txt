@@ -824,3 +824,4 @@ C:\Users\linat\Desktop\diplomatiki\LostPaw\LostPaw\obj\Debug\net6.0\refint\LostP
 C:\Users\linat\Desktop\diplomatiki\LostPaw\LostPaw\obj\Debug\net6.0\LostPaw.pdb
 C:\Users\linat\Desktop\diplomatiki\LostPaw\LostPaw\obj\Debug\net6.0\LostPaw.genruntimeconfig.cache
 C:\Users\linat\Desktop\diplomatiki\LostPaw\LostPaw\obj\Debug\net6.0\ref\LostPaw.dll
+C:\Users\linat\Desktop\diplomatiki\LostPaw\LostPaw\bin\Debug\net6.0\libman.json

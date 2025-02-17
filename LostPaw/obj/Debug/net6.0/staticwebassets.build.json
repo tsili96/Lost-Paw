@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "PTvcdISluK4PcEx3kDTW9YyeTDCgGIM2rCHoMv7hM4Y=",
+  "Hash": "gU54E9k7W4cN+u4Lv27PRRzasBlC6dtRmqL7JmDKfJs=",
   "Source": "LostPaw",
   "BasePath": "_content/LostPaw",
   "Mode": "Default",
@@ -1443,6 +1443,40 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\filters.js"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\signalr\\dist\\browser\\signalr.js",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "js/signalr/dist/browser/signalr.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.js"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "js/signalr/dist/browser/signalr.min.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js"
     },
     {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\site.js",

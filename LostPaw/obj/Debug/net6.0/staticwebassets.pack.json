@@ -93,6 +93,14 @@
       "PackagePath": "staticwebassets\\js\\filters.js"
     },
     {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\signalr\\dist\\browser\\signalr.js",
+      "PackagePath": "staticwebassets\\js\\signalr\\dist\\browser\\signalr.js"
+    },
+    {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\signalr\\dist\\browser\\signalr.min.js",
+      "PackagePath": "staticwebassets\\js\\signalr\\dist\\browser\\signalr.min.js"
+    },
+    {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\site.js",
       "PackagePath": "staticwebassets\\js\\site.js"
     },
