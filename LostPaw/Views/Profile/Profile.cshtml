@@ -26,6 +26,12 @@
                 <a asp-action="Edit" class="btn pastel-green">Edit Profile</a>
             </div>
         }
+        else if (User.Identity.IsAuthenticated)
+        {
+            <div class="text-center mt-3">
+                <a href="@Url.Action("StartChat", "Chat", new { recipientUsername = Model.Username })" class="btn pastel-blue">Send Message</a>
+            </div>
+        }
     </div>
 
     <h3 class="mt-5">User's Posts</h3>

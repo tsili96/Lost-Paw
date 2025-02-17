@@ -1,0 +1,30 @@
+﻿@model IEnumerable<LostPaw.Models.ChatViewModel>
+
+@{
+    ViewData["Title"] = "Chats";
+}
+
+<h2>Your Chats</h2>
+
+<div class="chat-list">
+    @foreach (var chat in Model)
+    {
+        <div class="chat-item">
+            <a href="@Url.Action("OpenChat", "Chat", new { chatId = chat.ChatId })" class="chat-link">
+                <div class="chat-user">
+                    <strong>@(chat.User1.Id == User.Identity.Name ? chat.User2.UserName : chat.User1.UserName)</strong>
+                    <span class="last-message">
+                        @(chat.LastMessage != null ? chat.LastMessage.Content : "No messages yet.")
+                    </span>
+                </div>
+                <div class="unread-messages">
+                    @if (chat.UnreadMessagesCount > 0)
+                    {
+                        <span class="badge badge-danger">@chat.UnreadMessagesCount</span>
+                    }
+                </div>
+            </a>
+        </div>
+    }
+</div>
+<script src="~/js/chat.js"></script>

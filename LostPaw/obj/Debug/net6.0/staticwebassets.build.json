@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "gU54E9k7W4cN+u4Lv27PRRzasBlC6dtRmqL7JmDKfJs=",
+  "Hash": "ztSye1weMrmRdRiBYde88UEOLkOfgA7saLT2inuaNl4=",
   "Source": "LostPaw",
   "BasePath": "_content/LostPaw",
   "Mode": "Default",
@@ -1426,6 +1426,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\chat.js",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "js/chat.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\chat.js"
     },
     {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\filters.js",

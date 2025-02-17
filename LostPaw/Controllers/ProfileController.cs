@@ -55,7 +55,8 @@ namespace LostPaw.Controllers
                     ImageUrl = p.ImageUrl,
                     DateLostFound = p.DateLostFound,
                     Username = user.UserName
-                }).ToList()
+                }).ToList(),
+                IsCurrentUser = User.Identity.Name == user.UserName
             };
 
             return View(viewModel);
@@ -96,7 +97,6 @@ namespace LostPaw.Controllers
             {
                 var fileExtension = Path.GetExtension(ProfilePicture.FileName).ToLower();
 
-                // Έλεγχος αν το αρχείο είναι εικόνα
                 if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png" || fileExtension == ".gif")
                 {
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profile_pics");
@@ -108,7 +108,6 @@ namespace LostPaw.Controllers
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfilePicture.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    // Αντιγραφή του αρχείου στον φάκελο
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await ProfilePicture.CopyToAsync(fileStream);

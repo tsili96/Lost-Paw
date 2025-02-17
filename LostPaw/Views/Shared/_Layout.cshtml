@@ -42,6 +42,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@Url.Action("Profile", "Profile", new { username = User.Identity.Name })">My Profile</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" href="@Url.Action("Index", "Chat")">Chat</a>
+                            </li>
 
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
