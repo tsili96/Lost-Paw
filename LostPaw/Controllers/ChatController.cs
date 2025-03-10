@@ -51,6 +51,8 @@ namespace LostPaw.Controllers
         public async Task<IActionResult> OpenChat(int chatId)
         {
             var chat = await _context.Chats
+                .Include(c => c.User1)  
+                .Include(c => c.User2)
                 .Include(c => c.Messages)
                     .ThenInclude(m => m.Sender)
                 .FirstOrDefaultAsync(c => c.Id == chatId);
@@ -112,6 +114,41 @@ namespace LostPaw.Controllers
             // Redirect to the newly created chat room
             return RedirectToAction("OpenChat", new { chatId = newChat.Id });
         }
+        [HttpPost]
+        public async Task<IActionResult> SendMessage(int chatId, string message)
+        {
+            var senderId = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+
+            if (string.IsNullOrEmpty(message))
+            {
+                return BadRequest("Message cannot be empty.");
+            }
+
+            var chat = await _context.Chats
+                .Include(c => c.Messages)
+                .FirstOrDefaultAsync(c => c.Id == chatId);
+
+            if (chat == null)
+            {
+                return NotFound("Chat not found.");
+            }
+
+            var newMessage = new ChatMessage
+            {
+                ChatId = chatId,
+                SenderId = senderId,
+                Content = message,
+                Timestamp = DateTime.UtcNow,
+                IsRead = false,
+                ReceiverId = (chat.User1Id == senderId) ? chat.User2Id : chat.User1Id
+            };
+
+            _context.ChatMessages.Add(newMessage);
+            await _context.SaveChangesAsync();
+
+            return RedirectToAction("OpenChat", new { chatId });
+        }
+
 
     }
 }

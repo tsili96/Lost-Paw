@@ -24,16 +24,14 @@ connection.start().then(() => {
 // Send message function
 document.getElementById("sendMessageBtn").addEventListener("click", () => {
     const message = document.getElementById("messageInput").value;
-    const sender = document.getElementById('sender').value;  // Use the logged-in user for sender
+    const chatId = document.getElementById("chatId").value;
+    const senderId = document.getElementById("senderId").value; // Βεβαιώσου ότι υπάρχει
 
-    if (message.trim() === "") return; // Do not send empty messages
+    if (!message.trim()) return;
 
-    const chatId = document.getElementById('chatId').value;  // Get chatId dynamically
-
-    // Send the message to the SignalR hub
-    connection.invoke("SendMessage", chatId, sender, message)
+    connection.invoke("SendMessage", chatId, senderId, message)
         .catch(err => console.error("Error sending message: ", err));
 
-    // Optionally, clear the message input field
     document.getElementById("messageInput").value = "";
 });
+
