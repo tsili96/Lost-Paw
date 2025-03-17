@@ -1,37 +1,73 @@
-﻿// Create a connection to the SignalR hub
-const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+﻿const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
 
-// This will run when the server sends a message to the group (chat)
+// Receive new messages in real-time
 connection.on("ReceiveMessage", (sender, message) => {
-    // Display the incoming message
-    const messageElement = document.createElement("div");
-    messageElement.innerText = `${sender}: ${message}`;
-    document.getElementById("messagesList").appendChild(messageElement);
+    console.log("New message received:", sender, message);
+    const messageList = document.getElementById("messagesList");
+    if (messageList) {
+        const messageElement = document.createElement("div");
+        messageElement.innerText = `${sender}: ${message}`;
+        messageList.appendChild(messageElement);
+    }
 });
 
-// Start the connection
+// Update chat list in real-time
+connection.on("UpdateChatList", (chatId, sender, message) => {
+    console.log("Updating chat list...");
+
+    const chatElement = document.querySelector(`.chat-item[data-chat-id='${chatId}']`);
+    if (chatElement) {
+        chatElement.querySelector(".last-message").innerText = `${sender}: ${message}`;
+    } else {
+        const chatList = document.querySelector(".chat-list");
+        if (chatList) {
+            const newChatItem = document.createElement("div");
+            newChatItem.classList.add("chat-item", "border", "rounded", "p-3", "mb-2", "shadow-sm");
+            newChatItem.setAttribute("data-chat-id", chatId);
+            newChatItem.innerHTML = `
+                <a href="/Chat/OpenChat?chatId=${chatId}" class="d-flex justify-content-between align-items-center text-decoration-none text-dark">
+                    <div>
+                        <strong>${sender}</strong>
+                        <p class="last-message mb-0 text-muted">${message}</p>
+                    </div>
+                </a>
+            `;
+            chatList.prepend(newChatItem);
+        }
+    }
+});
+
+// Start the SignalR connection
 connection.start().then(() => {
     console.log("Connected to SignalR hub");
 
-    // Get the chat ID (either from the ViewModel or other methods)
-    const chatId = document.getElementById('chatId').value;  // Changed to get the chatId dynamically
+    const chatIdInput = document.getElementById("chatId");
+    const chatId = chatIdInput ? chatIdInput.value : null;
 
-    // Join the chat group
-    connection.invoke("JoinChat", chatId)
-        .catch(err => console.error("Error joining chat: ", err));
+    if (chatId) {
+        connection.invoke("JoinChat", chatId).catch(err => console.error("Error joining chat: ", err));
+    }
 }).catch(err => console.error("Error starting connection: ", err));
 
-// Send message function
-document.getElementById("sendMessageBtn").addEventListener("click", () => {
-    const message = document.getElementById("messageInput").value;
-    const chatId = document.getElementById("chatId").value;
-    const senderId = document.getElementById("senderId").value; // Βεβαιώσου ότι υπάρχει
+// Send message functionality
+const sendButton = document.getElementById("sendMessageBtn");
+if (sendButton) {
+    sendButton.addEventListener("click", () => {
+        const messageInput = document.getElementById("messageInput");
+        const senderIdInput = document.getElementById("senderId");
+        const chatIdInput = document.getElementById("chatId");
 
-    if (!message.trim()) return;
+        if (!messageInput || !senderIdInput || !chatIdInput) return;
 
-    connection.invoke("SendMessage", chatId, senderId, message)
-        .catch(err => console.error("Error sending message: ", err));
+        const message = messageInput.value.trim();
+        const senderId = senderIdInput.value;
+        const chatId = chatIdInput.value;
 
-    document.getElementById("messageInput").value = "";
-});
+        if (!message) return;
 
+        connection.invoke("SendMessage", chatId, senderId, message)
+            .catch(err => console.error("Error sending message: ", err));
+
+        messageInput.value = "";
+    });
+}

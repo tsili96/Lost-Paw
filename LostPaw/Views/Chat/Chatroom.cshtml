@@ -1,7 +1,12 @@
-﻿@model LostPaw.Models.Chat
+﻿@using System.Security.Claims;
+@model LostPaw.Models.Chat
 
 @{
     ViewData["Title"] = "Chat Room";
+}
+
+@{
+    var currentUserId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
 }
 
 @if (Model.User1 == null || Model.User2 == null)
@@ -10,8 +15,9 @@
 }
 else
 {
-    <h2>Chat with @(Model.User1.Id == User.Identity.Name ? Model.User2.UserName : Model.User1.UserName)</h2>
+    <h2>Chat with @(Model.User1.Id == currentUserId ? Model.User2.UserName : Model.User1.UserName)</h2>
 }
+
 
 <div class="chat-room">
     <div class="messages">

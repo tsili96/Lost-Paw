@@ -1,30 +1,35 @@
-﻿@model IEnumerable<LostPaw.Models.ChatViewModel>
+﻿@using System.Security.Claims;
+@model IEnumerable<LostPaw.Models.ChatViewModel>
 
 @{
     ViewData["Title"] = "Chats";
 }
 
-<h2>Your Chats</h2>
+<h2 class="mb-4">Your Chats</h2>
 
-<div class="chat-list">
-    @foreach (var chat in Model)
-    {
-        <div class="chat-item">
-            <a href="@Url.Action("OpenChat", "Chat", new { chatId = chat.ChatId })" class="chat-link">
-                <div class="chat-user">
-                    <strong>@(chat.User1.Id == User.Identity.Name ? chat.User2.UserName : chat.User1.UserName)</strong>
-                    <span class="last-message">
-                        @(chat.LastMessage != null ? chat.LastMessage.Content : "No messages yet.")
-                    </span>
-                </div>
-                <div class="unread-messages">
+@if (!Model.Any())
+{
+    <p>No active chats found.</p>
+}
+else
+{
+    <div class="chat-list">
+        @foreach (var chat in Model)
+        {
+            var chatPartner = chat.User1.Id == User.FindFirstValue(ClaimTypes.NameIdentifier) ? chat.User2 : chat.User1;
+
+            <div class="chat-item border rounded p-3 mb-2 shadow-sm">
+                <a href="@Url.Action("OpenChat", "Chat", new { chatId = chat.ChatId })" class="d-flex justify-content-between align-items-center text-decoration-none text-dark">
+                    <div>
+                        <strong>@chatPartner.UserName</strong>
+                        <p class="mb-0 text-muted">@chat.LastMessage?.Content ?? "No messages yet."</p>
+                    </div>
                     @if (chat.UnreadMessagesCount > 0)
                     {
-                        <span class="badge badge-danger">@chat.UnreadMessagesCount</span>
+                        <span class="badge bg-danger">@chat.UnreadMessagesCount</span>
                     }
-                </div>
-            </a>
-        </div>
-    }
-</div>
-<script src="~/js/chat.js"></script>
+                </a>
+            </div>
+        }
+    </div>
+}

@@ -4,6 +4,7 @@ using LostPaw.Data;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Security.Claims;
 
 namespace LostPaw.Controllers
 {
@@ -19,7 +20,7 @@ namespace LostPaw.Controllers
         
         public async Task<IActionResult> Index()
         {
-            var userId = User.Identity.Name;
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (userId == null)
             {
@@ -31,7 +32,8 @@ namespace LostPaw.Controllers
                 .Where(c => c.User1Id == userId || c.User2Id == userId)
                 .Include(c => c.User1)
                 .Include(c => c.User2)
-                .OrderByDescending(c => c.Id)  // Sort chats by most recent
+                .Include(c => c.Messages)
+                .OrderByDescending(c => c.Messages.Max(m => (DateTime?)m.Timestamp) ?? DateTime.MinValue)
                 .ToListAsync();
 
             
