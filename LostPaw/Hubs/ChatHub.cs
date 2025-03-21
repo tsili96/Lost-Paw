@@ -19,18 +19,26 @@ namespace LostPaw.Hubs
         }
         public async Task SendMessage(int chatId, string senderId, string message)
         {
+
             var chat = await _context.Chats
                 .Include(c => c.Messages)
                 .Include(c => c.User1)
                 .Include(c => c.User2)
-                .FirstOrDefaultAsync(c => c.Id == chatId); 
+                .FirstOrDefaultAsync(c => c.Id == chatId);
 
-            if (chat == null) return;
+            if (chat == null)
+            {
+                Console.WriteLine("❌ Chat not found!");
+                return;
+            }
+
             var sender = await _context.Users.FindAsync(senderId);
             if (sender == null)
             {
+                Console.WriteLine("❌ Sender not found!");
                 throw new HubException("Sender not found.");
             }
+
             var receiverId = chat.User1Id == senderId ? chat.User2Id : chat.User1Id;
 
             var chatMessage = new ChatMessage
@@ -46,9 +54,12 @@ namespace LostPaw.Hubs
             _context.ChatMessages.Add(chatMessage);
             await _context.SaveChangesAsync();
 
+            Console.WriteLine($"📤 Sending message from {sender.UserName} to chat {chatId}");
+
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", sender.UserName, message);
             await Clients.User(receiverId).SendAsync("UpdateChatList", chatId, sender.UserName, message);
         }
+
 
     }
 

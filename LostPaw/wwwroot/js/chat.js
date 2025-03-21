@@ -1,4 +1,8 @@
-﻿const connection = new signalR.HubConnectionBuilder().withUrl("/chatHub").build();
+﻿const connection = new signalR.HubConnectionBuilder()
+    .withUrl("/chatHub", {
+        transport: signalR.HttpTransportType.WebSockets | signalR.HttpTransportType.LongPolling
+    })
+    .build();
 
 // Receive new messages in real-time
 connection.on("ReceiveMessage", (sender, message) => {
@@ -51,23 +55,39 @@ connection.start().then(() => {
 
 // Send message functionality
 const sendButton = document.getElementById("sendMessageBtn");
+
 if (sendButton) {
     sendButton.addEventListener("click", () => {
+        console.log("🟢 Send button clicked!");
+
         const messageInput = document.getElementById("messageInput");
         const senderIdInput = document.getElementById("senderId");
         const chatIdInput = document.getElementById("chatId");
 
-        if (!messageInput || !senderIdInput || !chatIdInput) return;
+        if (!messageInput || !senderIdInput || !chatIdInput) {
+            console.error("❌ Missing input fields!");
+            return;
+        }
 
         const message = messageInput.value.trim();
         const senderId = senderIdInput.value;
         const chatId = chatIdInput.value;
 
-        if (!message) return;
+        console.log(`📩 Trying to send: Message="${message}", SenderId="${senderId}", ChatId="${chatId}"`);
 
-        connection.invoke("SendMessage", chatId, senderId, message)
-            .catch(err => console.error("Error sending message: ", err));
+        if (!message) {
+            console.warn("⚠ No message entered.");
+            return;
+        }
+
+        connection.invoke("SendMessage", parseInt(chatId), senderId, message)
+            .then(() => console.log("✅ Message sent successfully"))
+            .catch(err => console.error("❌ Error sending message:", err));
 
         messageInput.value = "";
     });
+} else {
+    console.error("❌ Send button not found!");
 }
+
+
