@@ -22,7 +22,7 @@ else
                 <a href="@Url.Action("OpenChat", "Chat", new { chatId = chat.ChatId })" class="d-flex justify-content-between align-items-center text-decoration-none text-dark">
                     <div>
                         <strong>@chatPartner.UserName</strong>
-                        <p class="mb-0 text-muted">@chat.LastMessage?.Content ?? "No messages yet."</p>
+                        <p class="mb-0 text-muted">@chat.LastMessage?.Content</p>
                     </div>
                     @if (chat.UnreadMessagesCount > 0)
                     {

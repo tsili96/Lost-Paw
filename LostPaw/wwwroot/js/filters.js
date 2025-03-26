@@ -9,7 +9,8 @@
             document.querySelector('select[name="dateFilter"]').value = '';
 
             // Submit the form with empty filters
-            document.querySelector('form').submit();
+            const filtersForm = document.getElementById('filtersForm');
+            filtersForm.submit();
         });
     }
 });
