@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "ztSye1weMrmRdRiBYde88UEOLkOfgA7saLT2inuaNl4=",
+  "Hash": "MXX0UYiB78b3vPwfkBerKYP3l9zFxCIPjnvLNKsPuLs=",
   "Source": "LostPaw",
   "BasePath": "_content/LostPaw",
   "Mode": "Default",
@@ -1122,6 +1122,23 @@
       "OriginalItemSpec": "wwwroot\\images\\4b75a1a2-e04a-4783-994f-83c59a3afeb0.jpg"
     },
     {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\4da1be05-75a4-4ac9-9819-57fc76b68117.jpg",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "images/4da1be05-75a4-4ac9-9819-57fc76b68117.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\4da1be05-75a4-4ac9-9819-57fc76b68117.jpg"
+    },
+    {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\4e6d131c-658c-4e5c-bfdf-dad65a3379c3.jpg",
       "SourceId": "LostPaw",
       "SourceType": "Discovered",
@@ -1409,6 +1426,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\pet4.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\2f2b21d7-cf38-44e3-babf-1d09edf034dc_night sky.jpg",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "images/profile_pics/2f2b21d7-cf38-44e3-babf-1d09edf034dc_night sky.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile_pics\\2f2b21d7-cf38-44e3-babf-1d09edf034dc_night sky.jpg"
     },
     {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg",

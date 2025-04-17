@@ -5,7 +5,19 @@
 <h2 class="mb-4">Nearby Veterinarians</h2>
 
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-4 mb-3">
+        <p class="small text-muted">
+            If the detected location is not accurate, you can manually choose your location below.
+        </p>
+
+        <button id="manualLocationBtn" class="btn btn-outline-primary w-100 mb-2">
+            📍 Set My Location
+        </button>
+
+        <button id="resetLocationBtn" class="btn btn-outline-secondary w-100 mb-3">
+            🔄 Use My Current Location
+        </button>
+
         <h5>Results</h5>
         <ul id="placesList" class="list-group"></ul>
     </div>
@@ -17,22 +29,71 @@
 @section Scripts {
     <script>
         let map;
-        const markers = new Set(); // Prevent duplicate places
+        let userLocation = null;
+        const markers = new Set();
+        let manualLocationMode = false;
+        let manualMarker = null;
 
         function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: { lat: 37.9838, lng: 23.7275 }, // Default to Athens 
+                zoom: 12
+            });
+
+            // Attempt geolocation
+            detectUserLocation();
+
+            // Set manual location mode
+            document.getElementById("manualLocationBtn").addEventListener("click", () => {
+                alert("Click anywhere on the map to choose your location.");
+                manualLocationMode = true;
+            });
+
+            // Reset to current location
+            document.getElementById("resetLocationBtn").addEventListener("click", () => {
+                detectUserLocation(true);
+            });
+
+            // Handle manual map click
+            map.addListener("click", function (event) {
+                if (manualLocationMode) {
+                    const latLng = event.latLng;
+
+                    if (manualMarker) manualMarker.setMap(null);
+
+                    manualMarker = new google.maps.Marker({
+                        position: latLng,
+                        map: map,
+                        title: "Your Selected Location",
+                        draggable: true,
+                        icon: {
+                            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png"
+                        }
+                    });
+
+                    map.panTo(latLng);
+                    map.setZoom(15);
+                    manualLocationMode = false;
+
+                    alert(`📍 Location set at: ${latLng.lat().toFixed(5)}, ${latLng.lng().toFixed(5)}`);
+
+                    clearResults();
+                    searchNearby({ lat: latLng.lat(), lng: latLng.lng() });
+                }
+            });
+        }
+
+        function detectUserLocation(showAlert = false) {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(function (position) {
-                    const userLocation = {
+                    userLocation = {
                         lat: position.coords.latitude,
                         lng: position.coords.longitude
                     };
 
-                    map = new google.maps.Map(document.getElementById("map"), {
-                        center: userLocation,
-                        zoom: 14
-                    });
+                    map.setCenter(userLocation);
+                    map.setZoom(14);
 
-                    // Marker for user location
                     new google.maps.Marker({
                         position: userLocation,
                         map: map,
@@ -42,72 +103,81 @@
                         }
                     });
 
-                    const service = new google.maps.places.PlacesService(map);
-                    const placesList = document.getElementById("placesList");
+                    if (showAlert) {
+                        alert("✅ Location reset to your current position.");
+                    }
 
-                    const keywords = [
-                        'κτηνίατρος', 
-                        'κτηνιατρείο'
-                    ];
-
-                    keywords.forEach(term => {
-                        const request = {
-                            location: userLocation,
-                            radius: 5000, // in meters
-                            keyword: term
-                        };
-
-                        service.nearbySearch(request, function (results, status) {
-                            if (status === google.maps.places.PlacesServiceStatus.OK) {
-                                results.forEach(place => {
-                                    const key = `${place.name}-${place.geometry.location.lat()}-${place.geometry.location.lng()}`;
-
-                                    if (!markers.has(key)) {
-                                        markers.add(key);
-
-                                        const marker = new google.maps.Marker({
-                                            map: map,
-                                            position: place.geometry.location,
-                                            title: place.name
-                                        });
-
-                                        const infoWindow = new google.maps.InfoWindow({
-                                            content: `
-                                                        <div>
-                                                            <strong>${place.name}</strong><br>
-                                                            ${place.vicinity || ''}
-                                                        </div>
-                                                    `
-                                        });
-
-                                        marker.addListener("click", () => {
-                                            infoWindow.open(map, marker);
-                                        });
-
-                                        // result list
-                                        const listItem = document.createElement("li");
-                                        listItem.classList.add("list-group-item", "list-group-item-action");
-                                        listItem.innerHTML = `<strong>${place.name}</strong><br><small>${place.vicinity || ''}</small>`;
-
-                                        listItem.addEventListener("click", () => {
-                                            map.panTo(place.geometry.location);
-                                            map.setZoom(15);
-                                            infoWindow.open(map, marker);
-                                        });
-
-                                        placesList.appendChild(listItem);
-                                    }
-                                });
-                            }
-                        });
-                    });
-
+                    clearResults();
+                    searchNearby(userLocation);
                 }, function () {
-                    alert("Could not access your location.");
+                    alert("❌ Could not access your location. Try setting it manually.");
                 });
             } else {
-                alert("Your browser does not support geolocation.");
+                alert("❌ Your browser doesn't support geolocation.");
             }
+        }
+
+        function clearResults() {
+            document.getElementById("placesList").innerHTML = "";
+            markers.clear();
+        }
+
+        function searchNearby(location) {
+            const service = new google.maps.places.PlacesService(map);
+            const placesList = document.getElementById("placesList");
+
+            const keywords = ['κτηνίατρος', 'κτηνιατρείο'];
+
+            keywords.forEach(term => {
+                const request = {
+                    location: location,
+                    radius: 5000,
+                    keyword: term
+                };
+
+                service.nearbySearch(request, function (results, status) {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        results.forEach(place => {
+                            const key = `${place.name}-${place.geometry.location.lat()}-${place.geometry.location.lng()}`;
+
+                            if (!markers.has(key)) {
+                                markers.add(key);
+
+                                const marker = new google.maps.Marker({
+                                    map: map,
+                                    position: place.geometry.location,
+                                    title: place.name
+                                });
+
+                                const infoWindow = new google.maps.InfoWindow({
+                                    content: `
+                                                <div>
+                                                    <strong>${place.name}</strong><br>
+                                                    ${place.vicinity || ''}
+                                                </div>
+                                            `
+                                });
+
+                                marker.addListener("click", () => {
+                                    infoWindow.open(map, marker);
+                                });
+
+                                const listItem = document.createElement("li");
+                                listItem.classList.add("list-group-item", "list-group-item-action");
+                                listItem.innerHTML = `<strong>${place.name}</strong><br><small>${place.vicinity || ''}</small>`;
+
+                                listItem.addEventListener("click", () => {
+                                    map.panTo(place.geometry.location);
+                                    map.setZoom(15);
+                                    infoWindow.open(map, marker);
+                                });
+
+                                placesList.appendChild(listItem);
+                            }
+                        });
+                    }
+                });
+            });
         }
     </script>
 
