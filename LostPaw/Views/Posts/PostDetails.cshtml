@@ -25,6 +25,9 @@
                 @Model.Address.Street, @Model.Address.Number, @Model.Address.City, @Model.Address.PostalCode,
                 @Model.Address.Region, @Model.Address.Country
             </p>
+            <h5 class="mt-4">Location Map</h5>
+            <div id="map" style="height: 300px; width: 50%;"></div>
+
             
             <div class="mt-4">
                 <a asp-action="Index" class="btn pastel-purple">Back to Posts</a>
@@ -36,3 +39,31 @@
         </div>
     </div>
 </div>
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk1-vtByc5KCIEs4lpRUztf7qqz2nJtU8&libraries=places&callback=initMap">
+</script>
+<script>
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+        var address = "@Model.Address.Street @Model.Address.Number, @Model.Address.City, @Model.Address.PostalCode, @Model.Address.Region, @Model.Address.Country";
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: results[0].geometry.location
+                });
+
+                new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                console.error('Geocode was not successful for the following reason: ' + status);
+                document.getElementById('map').innerHTML = "<p class='text-danger'>Map could not load.</p>";
+            }
+        });
+    }
+
+    window.onload = initMap;
+</script>

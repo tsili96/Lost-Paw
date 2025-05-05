@@ -73,6 +73,14 @@
       "PackagePath": "staticwebassets\\images\\logo1.png"
     },
     {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\pastelGreenLogo.png",
+      "PackagePath": "staticwebassets\\images\\pastelGreenLogo.png"
+    },
+    {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\pastelLogo.png",
+      "PackagePath": "staticwebassets\\images\\pastelLogo.png"
+    },
+    {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\pet1.jpg",
       "PackagePath": "staticwebassets\\images\\pet1.jpg"
     },
@@ -87,6 +95,10 @@
     {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\pet4.jpg",
       "PackagePath": "staticwebassets\\images\\pet4.jpg"
+    },
+    {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\051ea4f5-6ab9-460c-84f4-9255966462cf_winter lake.jpg",
+      "PackagePath": "staticwebassets\\images\\profile_pics\\051ea4f5-6ab9-460c-84f4-9255966462cf_winter lake.jpg"
     },
     {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\2f2b21d7-cf38-44e3-babf-1d09edf034dc_night sky.jpg",

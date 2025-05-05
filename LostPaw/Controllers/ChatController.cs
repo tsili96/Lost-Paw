@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LostPaw.Controllers
 {
@@ -47,6 +48,17 @@ namespace LostPaw.Controllers
             }).ToList();
 
             return View(chatViewModel);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> GetUnreadCount()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var count = await _context.ChatMessages
+                .CountAsync(m => !m.IsRead && m.ReceiverId == userId);
+
+            return Json(new { count });
         }
 
         // open a specific chat

@@ -53,6 +53,7 @@ namespace LostPaw.Hubs
             await _context.SaveChangesAsync();
 
             await Clients.Group(chatId.ToString()).SendAsync("ReceiveMessage", sender.UserName, message);
+            await Clients.User(receiverId).SendAsync("UpdateUnreadCount");
             await Clients.User(receiverId).SendAsync("UpdateChatList", chatId, sender.UserName, message);
         }
 

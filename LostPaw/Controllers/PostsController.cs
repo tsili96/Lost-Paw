@@ -101,7 +101,14 @@ namespace LostPaw.Controllers
                 //}
 
                 var user = await _userManager.GetUserAsync(User);
-
+                var existingAddress = await _context.Addresses.FirstOrDefaultAsync(a =>
+                    a.Street == model.Address.Street &&
+                    a.Number == model.Address.Number &&
+                    a.City == model.Address.City &&
+                    a.PostalCode == model.Address.PostalCode &&
+                    a.Region == model.Address.Region &&
+                    a.Country == model.Address.Country
+                );
                 var post = new PetPost
                 {
                     Type = model.Type,
@@ -111,7 +118,7 @@ namespace LostPaw.Controllers
                     DateCreated = DateTime.Now,
                     DateLostFound = model.DateLostFound,
                     ChipNumber = model.ChipNumber,
-                    Address = model.Address 
+                    Address = existingAddress ?? model.Address
                 };
 
                 if (ImageFile != null)
@@ -167,6 +174,7 @@ namespace LostPaw.Controllers
             {
                 return NotFound();
             }
+            
 
             var model = new UpdatePostViewModel
             {
@@ -176,7 +184,7 @@ namespace LostPaw.Controllers
                 Description = post.Description,
                 ChipNumber = post.ChipNumber,
                 DateLostFound = post.DateLostFound,
-                Address = post.Address // Make sure the Address is set
+                Address =post.Address // Make sure the Address is set
             };
 
             ViewData["CurrentImageUrl"] = post.ImageUrl; // Set current image URL
@@ -196,13 +204,20 @@ namespace LostPaw.Controllers
                 {
                     return NotFound();
                 }
-
+                var existingAddress = await _context.Addresses.FirstOrDefaultAsync(a =>
+                    a.Street == model.Address.Street &&
+                    a.Number == model.Address.Number &&
+                    a.City == model.Address.City &&
+                    a.PostalCode == model.Address.PostalCode &&
+                    a.Region == model.Address.Region &&
+                    a.Country == model.Address.Country
+                );
                 post.Type = model.Type;
                 post.Title = model.Title;
                 post.Description = model.Description;
                 post.ChipNumber = model.ChipNumber;
                 post.DateLostFound = model.DateLostFound;
-                post.Address = model.Address;
+                post.Address = existingAddress ?? model.Address;
 
                 if (model.ImageFile != null)
                 {
