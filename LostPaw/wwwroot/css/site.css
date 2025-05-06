@@ -126,3 +126,10 @@ body {
     font-weight: bold; /* Make labels bold */
     color: black; /* Set label text color to black */
 }
+
+.default-avatar {
+    background-color: #f3e5f5; /* light pastel purple */
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+}

@@ -10,14 +10,9 @@
         <h1>Posts</h1>
 
         <!-- Search bar -->
-        <form method="get" asp-action="Index" class="d-flex position-relative">
+        <form id="searchForm" method="get" asp-action="Index" class="d-flex position-relative" style="z-index: 10;">
             <input type="text" id="searchInput" name="searchTerm" class="form-control rounded-pill me-2"
                    placeholder="Search by title or username..." value="@Context.Request.Query["searchTerm"]" />
-
-            <!-- X button in search bar -->
-            <button type="button" id="clearSearch" class="btn btn-outline-secondary rounded-circle" style="display: none;">
-                &times;
-            </button>
 
             <button type="submit" class="btn pastel-purple rounded-pill px-4">Search</button>
         </form>
