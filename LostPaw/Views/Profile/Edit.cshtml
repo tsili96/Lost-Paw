@@ -34,6 +34,10 @@
                         <label asp-for="ProfilePicUrl" class="form-label">Profile Picture</label>
                         <input type="file" name="ProfilePicture" class="form-control" />
                     </div>
+                    <div class="mb-3">
+                        <label asp-for="Username" class="form-label">Username</label>
+                        <input asp-for="Username" class="form-control" />
+                    </div>
 
                     <div class="mb-3">
                         <label asp-for="Fullname" class="form-label">Full Name</label>
@@ -48,6 +52,24 @@
                     <div class="mb-3">
                         <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
                         <input asp-for="PhoneNumber" class="form-control" />
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="AboutMe" class="form-label">About Me</label>
+                        <textarea asp-for="AboutMe" class="form-control" rows="4" placeholder="Write a few words about yourself..."></textarea>
+                    </div>
+
+                    <div class="form-check mb-2">
+                        <input asp-for="ShowFullName" class="form-check-input" type="checkbox" />
+                        <label asp-for="ShowFullName" class="form-check-label">
+                            Display Full Name on Profile
+                        </label>
+                    </div>
+
+                    <div class="form-check mb-3">
+                        <input asp-for="ShowPhoneNumber" class="form-check-input" type="checkbox" />
+                        <label asp-for="ShowPhoneNumber" class="form-check-label">
+                            Display Phone Number on Profile
+                        </label>
                     </div>
 
                     <div class="text-center">

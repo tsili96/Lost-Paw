@@ -10,7 +10,7 @@
     <div class="d-flex justify-content-center">
         <div class="card shadow-lg p-4 w-100" style="max-width: 600px;">
             <div class="text-center">
-                <h1 class="mb-3">@Model.Username's Profile</h1>
+                <h1 class="mb-3">@((isCurrentUser ? "My" : Model.Username + "'s")) Profile</h1>
 
                 @if (!string.IsNullOrEmpty(Model.ProfilePicUrl))
                 {
@@ -28,11 +28,19 @@
                         </svg>
                     </div>
                 }
+                @if (!string.IsNullOrEmpty(Model.AboutMe))
+                {
+                    <div class="mt-3">
+                        <p><strong>About Me:</strong></p>
+                        <p>@Model.AboutMe</p>
+                    </div>
+                }
+
             </div>
 
 
             <div class="mt-4">
-                <p><strong>Full Name:</strong> @Model.Fullname</p>
+                <p><strong>Full Name:</strong>  @(string.IsNullOrEmpty(Model.Fullname) ? "Not provided" : Model.Fullname)</p>
                 <p><strong>Email:</strong> @Model.Email</p>
                 <p><strong>Phone:</strong> @(string.IsNullOrEmpty(Model.PhoneNumber) ? "Not provided" : Model.PhoneNumber)</p>
             </div>
@@ -52,7 +60,7 @@
         </div>
     </div>
 
-    <h3 class="mt-5">User's Posts</h3>
+    <h3 class="mt-5">@((isCurrentUser ? "My" : Model.Username + "'s")) Posts</h3>
     <div class="row mt-3">
         @if (Model.UserPosts.Any())
         {
