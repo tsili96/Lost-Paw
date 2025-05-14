@@ -109,6 +109,10 @@
       "PackagePath": "staticwebassets\\images\\profile_pics\\ee2dff63-9c9f-4cde-8161-12d045a00067_forrest.jpg"
     },
     {
+      "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\whiteLogo.png",
+      "PackagePath": "staticwebassets\\images\\whiteLogo.png"
+    },
+    {
       "Id": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\js\\chat.js",
       "PackagePath": "staticwebassets\\js\\chat.js"
     },

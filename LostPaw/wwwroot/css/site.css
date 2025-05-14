@@ -33,7 +33,7 @@ body {
 }
 
     /* For hover effect */
-    .pastel-purple:hover {
+.pastel-purple:hover {
         background-color: #9e7cc6; /* Slightly darker purple */
         color: white;
     }
@@ -132,4 +132,8 @@ body {
 }
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Nunito', sans-serif;
+}
+
+.pastel-purple-text {
+    color: #9e7cc6;
 }

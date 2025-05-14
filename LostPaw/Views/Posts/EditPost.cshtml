@@ -5,131 +5,126 @@
     var currentImageUrl = ViewData["CurrentImageUrl"] as string;
 }
 
-<div class="container mt-5">
+<div class="container my-4">
     <div class="row justify-content-center">
-        <div class="col-lg-6 col-md-8 col-sm-10">
-            <h1 class="text-center mb-4">Edit Post</h1>
-            <form asp-action="Edit" method="post" enctype="multipart/form-data">
-                <input type="hidden" asp-for="Id" />
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h1 class="text-center mb-4">Edit Post</h1>
 
-                <!-- Title -->
-                <div class="form-group mb-3">
-                    <label asp-for="Title" class="form-label">Title</label>
-                    <input asp-for="Title" class="form-control" />
-                    <span asp-validation-for="Title" class="text-danger"></span>
-                </div>
+                <form asp-action="Edit" method="post" enctype="multipart/form-data">
+                    <input type="hidden" asp-for="Id" />
 
-                <!-- Description -->
-                <div class="form-group mb-3">
-                    <label asp-for="Description" class="form-label">Description</label>
-                    <textarea asp-for="Description" class="form-control" rows="3"></textarea>
-                    <span asp-validation-for="Description" class="text-danger"></span>
-                </div>
-
-                <!-- Type -->
-                <div class="form-group mb-3">
-                    <label asp-for="Type" class="form-label">Type</label>
-                    <select asp-for="Type" class="form-control">
-                        <option value="Lost">Lost</option>
-                        <option value="Found">Found</option>
-                        <option value="Adoption">Adoption</option>
-                    </select>
-                </div>
-
-                <!-- Address -->
-                <h5 class="text-center mb-3"><b>Address Information</b></h5>
-                <div class="form-group">
-                    <label for="autocompleteAddress">Search Address</label>
-                    <input id="autocompleteAddress" type="text" class="form-control" placeholder="Start typing address..." />
-                </div>
-
-                <div id="map" style="height: 250px; width: 50%; margin-bottom: 20px;"></div>
-
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.Street" class="form-label">Street</label>
-                        <input asp-for="Address.Street" class="form-control" />
-                        <span asp-validation-for="Address.Street" class="text-danger"></span>
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Title</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
                     </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.Number" class="form-label">Number</label>
-                        <input asp-for="Address.Number" class="form-control" />
-                        <span asp-validation-for="Address.Number" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.City" class="form-label">City</label>
-                        <input asp-for="Address.City" class="form-control" />
-                        <span asp-validation-for="Address.City" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.PostalCode" class="form-label">Postal Code</label>
-                        <input asp-for="Address.PostalCode" class="form-control" />
-                        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.Region" class="form-label">Region</label>
-                        <input asp-for="Address.Region" class="form-control" />
-                        <span asp-validation-for="Address.Region" class="text-danger"></span>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label asp-for="Address.Country" class="form-label">Country</label>
-                        <input asp-for="Address.Country" class="form-control" />
-                        <span asp-validation-for="Address.Country" class="text-danger"></span>
-                    </div>
-                </div>
-                <br />
-                <!-- Chip Number -->
-                <div class="form-group mb-3">
-                    <label asp-for="ChipNumber" class="form-label">Chip Number</label>
-                    <input asp-for="ChipNumber" class="form-control" />
-                    <span asp-validation-for="ChipNumber" class="text-danger"></span>
-                </div>
 
-                <!-- Date Lost/Found -->
-                <div class="form-group mb-3">
-                    <label asp-for="DateLostFound" class="form-label">Date Lost/Found</label>
-                    <input asp-for="DateLostFound" type="date" class="form-control" />
-                </div>
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
 
-                <!-- Current Image -->
-                <div class="form-group mb-3 text-center">
-                    <label><b>Current Image</b></label>
-                    <br>
-                    @if (!string.IsNullOrEmpty(currentImageUrl))
-                    {
-                        <img src="@currentImageUrl" alt="Current Image" class="img-fluid mt-2" style="max-width: 200px;" />
+                    <div class="mb-3">
+                        <label asp-for="Type" class="form-label">Type</label>
+                        <select asp-for="Type" class="form-control">
+                            <option value="Lost">Lost</option>
+                            <option value="Found">Found</option>
+                            <option value="Adoption">Adoption</option>
+                        </select>
+                    </div>
+
+                   
+
+                    <div class="mb-3">
+                        <label asp-for="ChipNumber" class="form-label">Chip Number</label>
+                        <input asp-for="ChipNumber" class="form-control" />
+                        <span asp-validation-for="ChipNumber" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DateLostFound" class="form-label">Date Lost/Found</label>
+                        <input asp-for="DateLostFound" type="date" class="form-control" />
+                    </div>
+
+                    <div class="mb-3 text-center">
+                        <label class="form-label"><strong>Current Image</strong></label><br />
+                        @if (!string.IsNullOrEmpty(currentImageUrl))
+                        {
+                            <img src="@currentImageUrl" alt="Current Image" class="img-fluid rounded" style="max-width: 200px;" />
+                        }
+                        else
+                        {
+                            <p>No image available</p>
+                        }
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ImageFile" class="form-label">Upload New Image</label>
+                        <input asp-for="ImageFile" type="file" class="form-control" />
+                    </div>
+                    <h5 class="text-center mt-4">📍 Address Information</h5>
+
+                    <div class="mb-3">
+                        <label for="autocompleteAddress" class="form-label">Search Address</label>
+                        <input id="autocompleteAddress" type="text" class="form-control" placeholder="Start typing address..." />
+                    </div>
+
+                    <div id="map" class="mb-3 rounded shadow-sm" style="height: 250px;"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Street" class="form-label">Street</label>
+                            <input asp-for="Address.Street" class="form-control" />
+                            <span asp-validation-for="Address.Street" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Number" class="form-label">Number</label>
+                            <input asp-for="Address.Number" class="form-control" />
+                            <span asp-validation-for="Address.Number" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.City" class="form-label">City</label>
+                            <input asp-for="Address.City" class="form-control" />
+                            <span asp-validation-for="Address.City" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.PostalCode" class="form-label">Postal Code</label>
+                            <input asp-for="Address.PostalCode" class="form-control" />
+                            <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Region" class="form-label">Region</label>
+                            <input asp-for="Address.Region" class="form-control" />
+                            <span asp-validation-for="Address.Region" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Country" class="form-label">Country</label>
+                            <input asp-for="Address.Country" class="form-control" />
+                            <span asp-validation-for="Address.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+                    <div class="text-center">
+                        <button type="submit" class="btn pastel-purple me-2">💾 Save Changes</button>
+                        <a asp-action="Index" class="btn pastel-green">Cancel</a>
+                    </div>
+                </form>
+
+                <form asp-action="Delete" asp-route-id="@Model.Id" method="post" class="text-center mt-3" onsubmit="return confirmDelete();">
+                    <button type="submit" class="btn btn-danger">🗑️ Delete Post</button>
+                </form>
+
+                <script>
+                    function confirmDelete() {
+                        return confirm("Are you sure you want to delete this post?");
                     }
-                    else
-                    {
-                        <p>No image available</p>
-                    }
-                </div>
-
-                <!-- Update Image -->
-                <div class="form-group mb-3">
-                    <label asp-for="ImageFile" class="form-label">Update Image</label>
-                    <input asp-for="ImageFile" type="file" class="form-control" />
-                </div>
-
-                <!-- Buttons -->
-                <div class="text-center">
-                    <button type="submit" class="btn pastel-purple me-2">Save Changes</button>
-                    <a asp-action="Index" class="btn pastel-green">Cancel</a>
-                </div>
-            </form>
-
-            <form asp-action="Delete" asp-route-id="@Model.Id" method="post" style="display:inline;" onsubmit="return confirmDelete();">
-                <button type="submit" class="btn btn-danger">Delete Post</button>
-            </form>
-
-            <script type="text/javascript">
-                function confirmDelete() {
-                    return confirm("Are you sure you want to delete this post?");
-                }
-            </script>
+                </script>
+            </div>
         </div>
     </div>
 </div>
+
 <!-- Google Maps Autocomplete Script -->
 <script async
         src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk1-vtByc5KCIEs4lpRUztf7qqz2nJtU8&libraries=places&callback=initMap">

@@ -6,46 +6,45 @@
 }
 
 <div class="container my-4">
-    <div class="d-flex justify-content-between align-items-center">
-        <h1>Posts</h1>
+    <h1 class="mb-4">Posts</h1>
 
-        <!-- Search bar -->
-        <form id="searchForm" method="get" asp-action="Index" class="d-flex position-relative" style="z-index: 10;">
-            <input type="text" id="searchInput" name="searchTerm" class="form-control rounded-pill me-2"
-                   placeholder="Search by title or username..." value="@Context.Request.Query["searchTerm"]" />
+    <!-- Search and Filter Section -->
+    <div class="card p-3 mb-4 shadow-sm">
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3">
+            <!-- Search bar -->
+            <form id="searchForm" method="get" asp-action="Index" class="d-flex flex-grow-1 me-3">
+                <input type="text" id="searchInput" name="searchTerm" class="form-control rounded-pill me-2"
+                       placeholder="Search by title or username..." value="@Context.Request.Query["searchTerm"]" />
+                <button type="submit" class="btn pastel-purple rounded-pill px-4">Search</button>
+            </form>
 
-            <button type="submit" class="btn pastel-purple rounded-pill px-4">Search</button>
-        </form>
-
-        <!-- Filters -->
-        <div id="filterSection" class="mb-5">
-            <form id ="filtersForm" method="get" asp-action="Index" class="d-flex gap-3 flex-wrap">
-                <!-- Post Type Filter -->
-                <select name="postType" class="form-control me-2">
-                    <option value="">Select Post Type</option>
+            <!-- Filters -->
+            <form id="filtersForm" method="get" asp-action="Index" class="d-flex flex-wrap gap-2 align-items-center">
+                <select name="postType" class="form-control rounded-pill">
+                    <option value="">Post Type</option>
                     <option value="Lost">Lost</option>
                     <option value="Found">Found</option>
                     <option value="Adoption">Adoption</option>
                 </select>
 
-                <!-- Date Filter -->
-                <select name="dateFilter" class="form-control me-2">
-                    <option value="">Select Date</option>
+                <select name="dateFilter" class="form-control rounded-pill">
+                    <option value="">Date</option>
                     <option value="mostRecent">Most Recent</option>
                     <option value="oldest">Oldest</option>
                 </select>
 
-                <button type="submit" class="btn pastel-purple rounded-pill px-4">Apply Filters</button>
-                <!-- Clear Filters Button -->
-                <button type="button" id="clearFilters" class="btn btn-outline-secondary rounded-pill ms-2">Clear Filters</button>
+                <button type="submit" class="btn pastel-purple rounded-pill">Apply</button>
+                <button type="button" id="clearFilters" class="btn btn-outline-secondary rounded-pill">Clear</button>
             </form>
+
+            @if (User.Identity.IsAuthenticated)
+            {
+                <a asp-controller="Posts" asp-action="Create" class="btn pastel-purple rounded-pill px-4">➕ New Post</a>
+            }
         </div>
-        @if (User.Identity.IsAuthenticated)
-        {
-            <a asp-area="" asp-controller="Posts" asp-action="Create" class="btn pastel-purple">New Post</a>
-        }
     </div>
 
+    <!-- No results message -->
     <div class="row mt-4">
         @if (ViewData["NoResults"] != null && (bool)ViewData["NoResults"])
         {
@@ -53,6 +52,8 @@
                 No results found. Try a different search term.
             </div>
         }
+
+        <!-- Posts -->
         @foreach (var post in Model)
         {
             <div class="col-md-4 mb-4">
@@ -69,11 +70,11 @@
                             <a href="@Url.Action("Profile", "Profile", new { username = post.Username })" class="text-decoration-none text-primary">@post.Username</a>
                         </p>
                         <p class="card-text"><strong>Date Lost/Found:</strong> @(post.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
-                        <div class="d-flex justify-content-between align-items-center">
-                            <a asp-action="Details" asp-route-id="@post.Id" class="btn btn-purple rounded-pill px-3">View Details</a>
+                        <div class="d-flex justify-content-between align-items-center mt-3">
+                            <a asp-action="Details" asp-route-id="@post.Id" class="btn pastel-purple rounded-pill px-3">View Details</a>
                             @if (User.Identity.IsAuthenticated && post.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
                             {
-                                <a asp-action="Edit" asp-route-id="@post.Id" class="btn btn-outline-success rounded-pill px-3">Edit</a>
+                                <a asp-action="Edit" asp-route-id="@post.Id" class="btn pastel-green rounded-pill px-3">Edit</a>
                             }
                         </div>
                     </div>
@@ -82,5 +83,6 @@
         }
     </div>
 </div>
+
 <script src="~/js/search.js"></script>
 <script src="~/js/filters.js"></script>
