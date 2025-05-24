@@ -6,6 +6,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
+using System.Diagnostics;
 
 namespace LostPaw.Controllers
 {
@@ -29,14 +30,17 @@ namespace LostPaw.Controllers
             }
 
             // Fetch the list of active chats for the user
+            var stopwatch = new Stopwatch();
+            stopwatch.Start();
             var chats = await _context.Chats
                 .Where(c => c.User1Id == userId || c.User2Id == userId)
                 .Include(c => c.User1)
                 .Include(c => c.User2)
                 .Include(c => c.Messages)
-                .OrderByDescending(c => c.Messages.Max(m => (DateTime?)m.Timestamp) ?? DateTime.MinValue)
+//                .OrderByDescending(c => c.Messages.Max(m => (DateTime?)m.Timestamp) ?? DateTime.MinValue)
                 .ToListAsync();
-
+            stopwatch.Stop();
+            Console.WriteLine(stopwatch.ElapsedMilliseconds);
             
             var chatViewModel = chats.Select(chat => new ChatViewModel
             {

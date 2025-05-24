@@ -50,4 +50,15 @@ app.MapControllerRoute(
     pattern: "{controller=Home}/{action=Index}/{id?}");
 app.MapRazorPages();
 app.MapHub<ChatHub>("/chatHub");
+app.WarmupDbContext();
 app.Run();
+
+
+public static class Extensions
+{
+    public static void WarmupDbContext(this WebApplication app)
+    {
+        using var context = new LostPawDbContext(app.Configuration.GetConnectionString("DefaultConnection"));
+        var _ = context.Model;
+    }
+}
