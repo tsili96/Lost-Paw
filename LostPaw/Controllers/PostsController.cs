@@ -167,7 +167,7 @@ namespace LostPaw.Controllers
         {
             var post = await _context.Posts
                 .Where(p => p.Id == id)
-                .Include(p => p.Address)  // Make sure the Address is included
+                .Include(p => p.Address) 
                 .FirstOrDefaultAsync();
 
             if (post == null)
@@ -184,10 +184,10 @@ namespace LostPaw.Controllers
                 Description = post.Description,
                 ChipNumber = post.ChipNumber,
                 DateLostFound = post.DateLostFound,
-                Address =post.Address // Make sure the Address is set
+                Address =post.Address 
             };
 
-            ViewData["CurrentImageUrl"] = post.ImageUrl; // Set current image URL
+            ViewData["CurrentImageUrl"] = post.ImageUrl; 
 
             return View("EditPost",model);
         }
