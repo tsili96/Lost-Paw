@@ -3,83 +3,162 @@
     ViewData["Title"] = "Create New Post";
 }
 
-<h1>Create a New Post</h1>
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-lg p-4">
+                <h1 class="text-center mb-4">Create a New Post</h1>
 
-<form asp-action="Create" method="post" enctype="multipart/form-data">
-    <div class="form-group">
-        <label asp-for="Title">Title</label>
-        <input asp-for="Title" class="form-control" />
-        <span asp-validation-for="Title" class="text-danger"></span>
+                <form asp-action="Create" method="post" enctype="multipart/form-data">
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label">Title</label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label">Description</label>
+                        <textarea asp-for="Description" class="form-control" rows="3"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Type" class="form-label">Type</label>
+                        <select asp-for="Type" class="form-control">
+                            <option value="Lost">Lost</option>
+                            <option value="Found">Found</option>
+                            <option value="Adoption">Adoption</option>
+                        </select>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="ChipNumber" class="form-label">Chip Number</label>
+                        <input asp-for="ChipNumber" class="form-control" />
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="DateLostFound" class="form-label">Date Lost/Found</label>
+                        <input asp-for="DateLostFound" type="date" class="form-control" />
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="ImageFile" class="form-label">Upload Image</label>
+                        <input asp-for="ImageFile" type="file" class="form-control" />
+                        <span asp-validation-for="ImageFile" class="text-danger"></span>
+                    </div>
+
+                    <h5 class="text-center mt-4">📍 Address Information</h5>
+
+                    <div class="mb-3">
+                        <label for="autocompleteAddress" class="form-label">Search Address</label>
+                        <input id="autocompleteAddress" type="text" class="form-control" placeholder="Start typing address..." />
+                    </div>
+
+                    <div id="map" class="mb-3 rounded shadow-sm" style="height: 250px;"></div>
+
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Street" class="form-label">Street</label>
+                            <input asp-for="Address.Street" class="form-control" />
+                            <span asp-validation-for="Address.Street" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Number" class="form-label">Number</label>
+                            <input asp-for="Address.Number" class="form-control" />
+                            <span asp-validation-for="Address.Number" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.City" class="form-label">City</label>
+                            <input asp-for="Address.City" class="form-control" />
+                            <span asp-validation-for="Address.City" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.PostalCode" class="form-label">Postal Code</label>
+                            <input asp-for="Address.PostalCode" class="form-control" />
+                            <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Region" class="form-label">Region</label>
+                            <input asp-for="Address.Region" class="form-control" />
+                            <span asp-validation-for="Address.Region" class="text-danger"></span>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label asp-for="Address.Country" class="form-label">Country</label>
+                            <input asp-for="Address.Country" class="form-control" />
+                            <span asp-validation-for="Address.Country" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="text-center">
+                        <button type="submit" class="btn pastel-purple me-2">📤 Submit Post</button>
+                        <a asp-action="Index" class="btn pastel-green">Cancel</a>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
+</div>
 
-    <div class="form-group">
-        <label asp-for="Description">Description</label>
-        <textarea asp-for="Description" class="form-control"></textarea>
-        <span asp-validation-for="Description" class="text-danger"></span>
-    </div>
 
-    <div class="form-group">
-        <label asp-for="Type">Type</label>
-        <select asp-for="Type" class="form-control">
-            <option value="Lost">Lost</option>
-            <option value="Found">Found</option>
-            <option value="Adoption">Adoption</option>
-        </select>
-    </div>
+<!-- Google Maps Autocomplete Script -->
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk1-vtByc5KCIEs4lpRUztf7qqz2nJtU8&libraries=places&callback=initMap">
+</script>
+<script>
+    let autocomplete;
+    let map;
+    let marker;
 
-    <h3>Address Information</h3>
+    function initAutocomplete() {
+        const defaultLocation = { lat: 37.9838, lng: 23.7275 }; // Athens
 
-    <div class="form-group">
-        <label asp-for="Address.Street">Street</label>
-        <input asp-for="Address.Street" class="form-control" />
-        <span asp-validation-for="Address.Street" class="text-danger"></span>
-    </div>
+        map = new google.maps.Map(document.getElementById("map"), {
+            center: defaultLocation,
+            zoom: 12,
+        });
 
-    <div class="form-group">
-        <label asp-for="Address.Number">Number</label>
-        <input asp-for="Address.Number" class="form-control" />
-        <span asp-validation-for="Address.Number" class="text-danger"></span>
-    </div>
+        marker = new google.maps.Marker({
+            map: map,
+            position: defaultLocation
+        });
 
-    <div class="form-group">
-        <label asp-for="Address.City">City</label>
-        <input asp-for="Address.City" class="form-control" />
-        <span asp-validation-for="Address.City" class="text-danger"></span>
-    </div>
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById("autocompleteAddress"),
+            { types: ["geocode"] }
+        );
 
-    <div class="form-group">
-        <label asp-for="Address.PostalCode">Postal Code</label>
-        <input asp-for="Address.PostalCode" class="form-control" />
-        <span asp-validation-for="Address.PostalCode" class="text-danger"></span>
-    </div>
+        autocomplete.setFields(["geometry", "address_component"]);
 
-    <div class="form-group">
-        <label asp-for="Address.Region">Region</label>
-        <input asp-for="Address.Region" class="form-control" />
-        <span asp-validation-for="Address.Region" class="text-danger"></span>
-    </div>
+        autocomplete.addListener("place_changed", () => {
+            const place = autocomplete.getPlace();
 
-    <div class="form-group">
-        <label asp-for="Address.Country">Country</label>
-        <input asp-for="Address.Country" class="form-control" />
-        <span asp-validation-for="Address.Country" class="text-danger"></span>
-    </div>
+            if (!place.geometry) {
+                alert("No details available for the selected location.");
+                return;
+            }
 
-    <div class="form-group">
-        <label asp-for="ChipNumber">Chip Number</label>
-        <input asp-for="ChipNumber" class="form-control" />
-    </div>
+            // Update marker and map
+            const location = place.geometry.location;
+            map.setCenter(location);
+            map.setZoom(16);
+            marker.setPosition(location);
 
-    <div class="form-group">
-        <label asp-for="DateLostFound">Date Lost/Found</label>
-        <input asp-for="DateLostFound" type="date" class="form-control" />
-    </div>
+            const components = place.address_components;
 
-    <div class="form-group">
-        <label asp-for="ImageFile">Image Upload</label>
-        <input asp-for="ImageFile" type="file" class="form-control" />
-        <span asp-validation-for="ImageFile" class="text-danger"></span>
-    </div>
+            function getComponent(type) {
+                const comp = components.find(c => c.types.includes(type));
+                return comp ? comp.long_name : '';
+            }
 
-    <button type="submit" class="btn btn-primary">Submit Post</button>
-</form>
+            // Update hidden address fields
+            document.getElementById("Address_Street").value = getComponent("route");
+            document.getElementById("Address_Number").value = getComponent("street_number");
+            document.getElementById("Address_City").value = getComponent("locality") || getComponent("administrative_area_level_2");
+            document.getElementById("Address_PostalCode").value = getComponent("postal_code");
+            document.getElementById("Address_Region").value = getComponent("administrative_area_level_1");
+            document.getElementById("Address_Country").value = getComponent("country");
+        });
+    }
+
+    window.onload = initAutocomplete;
+</script>

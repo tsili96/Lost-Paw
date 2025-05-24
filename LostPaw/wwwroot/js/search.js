@@ -1,26 +1,32 @@
 ﻿document.addEventListener("DOMContentLoaded", function () {
     const searchInput = document.getElementById("searchInput");
     const clearSearchButton = document.getElementById("clearSearch");
-    const searchForm = document.querySelector("form");
 
-    // check if the input has a value
+    if (!searchInput || !clearSearchButton) return;
+
+    // Show the clear button if there's text initially
     if (searchInput.value) {
-        clearSearchButton.style.display = "inline-block"; // Show the clear button if there is a search term
+        clearSearchButton.style.display = "inline-block";
     }
 
-    // changes in the search input
+    // Toggle clear button based on input changes
     searchInput.addEventListener("input", function () {
-        // visibility of the clear button based on the input value
-        if (searchInput.value) {
-            clearSearchButton.style.display = "inline-block"; // Show the clear button if there's input
-        } else {
-            clearSearchButton.style.display = "none"; // Hide it when the input is empty
-        }
+        clearSearchButton.style.display = searchInput.value ? "inline-block" : "none";
     });
 
-    // Clear the search input and reload the page when the 'X' is clicked
-    clearSearchButton.addEventListener("click", function () {
-        searchInput.value = ""; // Clear the input field
-        searchForm.submit();    // Submit the form to reload the page without the search term
+    // 👇 This is where you put it
+    clearSearchButton.addEventListener("click", function (e) {
+        e.preventDefault();             // prevent default behavior
+        e.stopImmediatePropagation();   // stop event from reaching other elements
+
+        console.log("Clear button clicked");
+
+        searchInput.value = "";
+        clearSearchButton.style.display = "none";
+
+        // 🔥 Submit only the search form using its name or ID
+        document.forms["searchForm"].submit();
+        // or if using ID:
+        // document.getElementById("searchForm").submit();
     });
 });

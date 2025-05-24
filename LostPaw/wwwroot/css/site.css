@@ -14,7 +14,8 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: 'Nunito', sans-serif;
 }
 .logo {
     width: 130px;
@@ -32,7 +33,7 @@ body {
 }
 
     /* For hover effect */
-    .pastel-purple:hover {
+.pastel-purple:hover {
         background-color: #9e7cc6; /* Slightly darker purple */
         color: white;
     }
@@ -124,4 +125,15 @@ body {
 .form-label {
     font-weight: bold; /* Make labels bold */
     color: black; /* Set label text color to black */
+}
+
+.default-avatar {
+    background-color: #f3e5f5; /* light pastel purple */
+}
+h1, h2, h3, h4, h5, h6 {
+    font-family: 'Nunito', sans-serif;
+}
+
+.pastel-purple-text {
+    color: #9e7cc6;
 }

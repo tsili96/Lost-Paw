@@ -6,33 +6,75 @@
 }
 
 <div class="container my-4">
-    <div class="card shadow-lg">
-        <div class="card-body">
-            <h1 class="card-title">@Model.Title</h1>
-            @if (!string.IsNullOrEmpty(Model.ImageUrl))
-            {
-                <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid mt-3" style="max-width: 400px;" />
-            }
-            <p class="text-muted"><strong>Posted by:</strong> 
-                <a href="@Url.Action("Profile", "Profile", new { username = Model.Username })">@Model.Username</a>
-            </p>
-            <p><strong>Type:</strong> @Model.Type</p>
-            <p><strong>Description:</strong> @Model.Description</p>
-            <p><strong>Chip Number:</strong> @(!string.IsNullOrEmpty(Model.ChipNumber) ? Model.ChipNumber : "N/A")</p>
-            <p><strong>Date Lost/Found:</strong> @(Model.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
-            <p>
-                <strong>Address:</strong>
-                @Model.Address.Street, @Model.Address.Number, @Model.Address.City, @Model.Address.PostalCode,
-                @Model.Address.Region, @Model.Address.Country
-            </p>
-            
-            <div class="mt-4">
-                <a asp-action="Index" class="btn pastel-purple">Back to Posts</a>
-                @if (User.Identity.IsAuthenticated && Model.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg p-4">
+                <h1 class="text-center mb-4">@Model.Title</h1>
+
+                @if (!string.IsNullOrEmpty(Model.ImageUrl))
                 {
-                    <a asp-action="Edit" asp-route-id="@Model.Id" class="btn pastel-green">Edit Post</a>
+                    <div class="text-center mb-4">
+                        <img src="@Model.ImageUrl" alt="@Model.Title" class="img-fluid rounded shadow-sm" style="max-height: 300px; object-fit: cover;" />
+                    </div>
                 }
+
+                <div class="mb-3">
+                    <p class="mb-1">
+                        <strong>Posted by:</strong>
+                        <a href="@Url.Action("Profile", "Profile", new { username = Model.Username })" class="text-decoration-none text-primary">@Model.Username</a>
+                    </p>
+                    <p class="mb-1"><strong>Type:</strong> @Model.Type</p>
+                    <p class="mb-1"><strong>Description:</strong> @Model.Description</p>
+                    <p class="mb-1"><strong>Chip Number:</strong> @(!string.IsNullOrEmpty(Model.ChipNumber) ? Model.ChipNumber : "N/A")</p>
+                    <p class="mb-1"><strong>Date Lost/Found:</strong> @(Model.DateLostFound?.ToString("MM/dd/yyyy") ?? "N/A")</p>
+
+                    <p class="mb-1">
+                        <strong>Address: </strong>
+                        @Model.Address.Street @Model.Address.Number, 
+                        @Model.Address.City, @Model.Address.PostalCode 
+                        @Model.Address.Region, @Model.Address.Country
+                    </p>
+                </div>
+
+                <h5 class="text-center mt-4 mb-2">📍 Location Map</h5>
+                <div id="map" class="mb-4 rounded shadow-sm" style="height: 300px;"></div>
+
+                <div class="text-center">
+                    <a asp-action="Index" class="btn pastel-purple rounded-pill me-2">← Back to Posts</a>
+                    @if (User.Identity.IsAuthenticated && Model.UserId == User.FindFirstValue(ClaimTypes.NameIdentifier))
+                    {
+                        <a asp-action="Edit" asp-route-id="@Model.Id" class="btn pastel-green rounded-pill">✏️ Edit Post</a>
+                    }
+                </div>
             </div>
         </div>
     </div>
 </div>
+<script async
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAk1-vtByc5KCIEs4lpRUztf7qqz2nJtU8&libraries=places&callback=initMap">
+</script>
+<script>
+    function initMap() {
+        var geocoder = new google.maps.Geocoder();
+        var address = "@Model.Address.Street @Model.Address.Number, @Model.Address.City, @Model.Address.PostalCode, @Model.Address.Region, @Model.Address.Country";
+
+        geocoder.geocode({ 'address': address }, function (results, status) {
+            if (status === 'OK') {
+                var map = new google.maps.Map(document.getElementById('map'), {
+                    zoom: 15,
+                    center: results[0].geometry.location
+                });
+
+                new google.maps.Marker({
+                    map: map,
+                    position: results[0].geometry.location
+                });
+            } else {
+                console.error('Geocode was not successful for the following reason: ' + status);
+                document.getElementById('map').innerHTML = "<p class='text-danger'>Map could not load.</p>";
+            }
+        });
+    }
+
+    window.onload = initMap;
+</script>

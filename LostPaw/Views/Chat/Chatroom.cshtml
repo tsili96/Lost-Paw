@@ -1,0 +1,53 @@
+﻿@using System.Security.Claims;
+@model LostPaw.Models.Chat
+
+@{
+    ViewData["Title"] = "Chat Room";
+    var currentUserId = User.FindFirstValue(System.Security.Claims.ClaimTypes.NameIdentifier);
+    var chatPartnerName = (Model.User1.Id == currentUserId) ? Model.User2.UserName : Model.User1.UserName;
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg p-4">
+                <h3 class="text-center mb-4">
+                    Chat with <span class="text-muted pastel-purple-text">@chatPartnerName</span>
+                </h3>
+
+                <div id="messagesList" class="border rounded p-3 mb-4" style="height: 300px; overflow-y: auto; background-color: #fdfbff;">
+                    @foreach (var message in Model.Messages.OrderBy(m => m.Timestamp))
+                    {
+                        var isSender = message.SenderId == currentUserId;
+                        <div class="mb-3 d-flex flex-column @(isSender ? "align-items-end" : "align-items-start")">
+                            <div class="small fw-semibold text-muted mb-1">
+                                @message.Sender.UserName
+                            </div>
+                            <div class="px-3 py-2 rounded-4 shadow-sm"
+                                 style="max-width: 60%; background-color: @(isSender ? "#b39ddb" : "#a5d6a7"); color: white; font-size: 0.95rem; line-height: 1.4;">
+                                @message.Content
+                            </div>
+                            <div class="small text-muted mt-1" style="font-size: 0.75rem;">
+                                @message.Timestamp.ToString("HH:mm")
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <form method="post" asp-action="SendMessage" class="d-flex gap-2">
+                    <input type="hidden" id="senderId" value="@currentUserId" />
+                    <input type="hidden" id="chatId" name="chatId" value="@Model.Id" />
+                    <textarea id="messageInput" name="message" class="form-control rounded-pill px-3" rows="1" placeholder="Type a message..." required></textarea>
+                    <button type="button" id="sendMessageBtn" class="btn pastel-purple rounded-pill px-4">Send</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    window.onload = () => {
+        const messagesList = document.getElementById("messagesList");
+        messagesList.scrollTop = messagesList.scrollHeight;
+    };
+</script>

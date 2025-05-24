@@ -16,14 +16,16 @@ namespace LostPaw.ViewModels
 
         [Required]
         [DataType(DataType.Password)]
+        [Display(Name = "Confirm Password")]
         [Compare("Password", ErrorMessage = "Passwords do not match.")]
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Full Name")]
         public string FullName { get; set; }
 
         [Required]
-        [Phone]
+        [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
     }
 }

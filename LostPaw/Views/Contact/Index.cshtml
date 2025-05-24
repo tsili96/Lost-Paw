@@ -2,22 +2,27 @@
     ViewData["Title"] = "Contact Us";
 }
 
-<h1>Contact Us</h1>
-<p>If you have any questions or need help, please don't hesitate to contact us.</p>
-
-<form>
-    <div class="form-group">
-        <label for="name">Your Name</label>
-        <input type="text" id="name" class="form-control" />
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm border-0">
+                <div class="card-body">
+                    <h1 class="card-title mb-4 text-center">📩 Contact Us</h1>
+                    <p class="lead">
+                        If you have any questions, feedback, or concerns regarding <strong>LostPaw</strong>, feel free to reach out.
+                    </p>
+                    <p>
+                        You can contact us anytime at:
+                    </p>
+                    <p class="h5 text-primary mb-4">
+                        <strong>📧 contact.lostpaw@gmail.com</strong>
+                    </p>
+                    <p>
+                        We’re here to help with anything related to lost, found, or adoptable pets.
+                        Whether you're reporting a bug, suggesting an improvement, or just want to say hello — we'd love to hear from you!
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
-    <div class="form-group">
-        <label for="email">Your Email</label>
-        <input type="email" id="email" class="form-control" />
-    </div>
-    <div class="form-group">
-        <label for="message">Your Message</label>
-        <textarea id="message" class="form-control"></textarea>
-    </div>
-    <br>
-    <button type="submit" class="btn pastel-purple">Send Message</button>
-</form>
+</div>

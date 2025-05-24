@@ -44,9 +44,12 @@ namespace LostPaw.Controllers
             {
                 Username = user.UserName,
                 Email = user.Email,
-                Fullname = user.FullName,
-                PhoneNumber = user.PhoneNumber,
+                Fullname = user.ShowFullName ? user.FullName : null,
+                PhoneNumber = user.ShowPhoneNumber ? user.PhoneNumber : null,
                 ProfilePicUrl = user.ProfilePicUrl,
+                AboutMe = user.AboutMe,
+                ShowPhoneNumber = user.ShowPhoneNumber,
+                ShowFullName = user.ShowFullName,
                 UserPosts = user.Posts.Select(p => new DisplayPostListViewModel
                 {
                     Id = p.Id,
@@ -55,7 +58,8 @@ namespace LostPaw.Controllers
                     ImageUrl = p.ImageUrl,
                     DateLostFound = p.DateLostFound,
                     Username = user.UserName
-                }).ToList()
+                }).ToList(),
+                IsCurrentUser = User.Identity.Name == user.UserName
             };
 
             return View(viewModel);
@@ -77,6 +81,9 @@ namespace LostPaw.Controllers
                 Fullname = user.FullName,
                 PhoneNumber = user.PhoneNumber,
                 ProfilePicUrl = user.ProfilePicUrl,
+                AboutMe = user.AboutMe,
+                ShowPhoneNumber = user.ShowPhoneNumber,
+                ShowFullName = user.ShowFullName,
                 IsCurrentUser = true 
             };
 
@@ -91,12 +98,17 @@ namespace LostPaw.Controllers
             {
                 return NotFound();
             }
-
+            var existingUser = await _userManager.FindByNameAsync(model.Username);
+            if (existingUser != null && existingUser.Id != user.Id)
+            {
+                ModelState.AddModelError("Username", "This username is already taken.");
+                return View(model);
+            }
+            user.UserName = model.Username;
             if (ProfilePicture != null && ProfilePicture.Length > 0)
             {
                 var fileExtension = Path.GetExtension(ProfilePicture.FileName).ToLower();
 
-                // Έλεγχος αν το αρχείο είναι εικόνα
                 if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png" || fileExtension == ".gif")
                 {
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profile_pics");
@@ -108,7 +120,6 @@ namespace LostPaw.Controllers
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfilePicture.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
-                    // Αντιγραφή του αρχείου στον φάκελο
                     using (var fileStream = new FileStream(filePath, FileMode.Create))
                     {
                         await ProfilePicture.CopyToAsync(fileStream);
@@ -123,6 +134,9 @@ namespace LostPaw.Controllers
             }
             user.FullName = model.Fullname;
             user.PhoneNumber = model.PhoneNumber;
+            user.AboutMe = model.AboutMe;
+            user.ShowPhoneNumber = model.ShowPhoneNumber;
+            user.ShowFullName = model.ShowFullName;
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)

@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - LostPaw</title>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/LostPaw.styles.css" asp-append-version="true" />
@@ -13,10 +13,10 @@
 <body>
     <header>
         
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light border-bottom box-shadow mb-3" style="background-color: #f3e8ff;">
             <div class="container-fluid">
                 <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">
-                    <img src="~/images/logo1.png" alt="Lost Paw Logo" class="logo" />
+                    <img src="~/images/whiteLogo.png" alt="Lost Paw Logo" class="logo" />
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -42,6 +42,15 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" href="@Url.Action("Profile", "Profile", new { username = User.Identity.Name })">My Profile</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark position-relative" href="@Url.Action("Index", "Chat")">
+                                    Chat
+                                    <span id="chatNotification" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display:none;">
+                                        0
+                                    </span>
+                                </a>
+                            </li>
+
 
                             <li class="nav-item">
                                 <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
@@ -70,14 +79,51 @@
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2024 - LostPaw - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
+    <!--<footer class="border-top footer text-muted">
+         <div class="container">
+             &copy; 2024 - LostPaw - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+         </div>
+     </footer>-->
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/chat.js"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
+<script>
+    const chatConnection = new signalR.HubConnectionBuilder()
+        .withUrl("/chathub")
+        .build();
+
+    function updateChatNotification(count) {
+        const badge = document.getElementById("chatNotification");
+        if (badge) {
+            if (count > 0) {
+                badge.style.display = "inline-block";
+                badge.innerText = count;
+            } else {
+                badge.style.display = "none";
+            }
+        }
+    }
+
+    async function fetchUnreadCount() {
+        try {
+            const res = await fetch("/Chat/GetUnreadCount");
+            const data = await res.json();
+            updateChatNotification(data.count);
+        } catch (err) {
+            console.error("Error fetching unread count", err);
+        }
+    }
+
+    chatConnection.on("UpdateUnreadCount", () => {
+        fetchUnreadCount(); // Update when new message arrives
+    });
+
+    chatConnection.start().then(() => {
+        fetchUnreadCount(); // Initial load
+    }).catch(err => console.error("SignalR connection failed:", err));
+</script>

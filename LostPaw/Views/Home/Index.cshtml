@@ -2,40 +2,83 @@
     ViewData["Title"] = "Home Page";
 }
 
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        font-family: 'Nunito', sans-serif;
+    }
+
+    .homepage-card {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 0 20px rgba(0, 0, 0, 0.05);
+        padding: 2rem;
+        margin-top: 3rem;
+    }
+
+    .carousel-inner {
+        height: 400px; 
+    }
+
+        .carousel-inner .carousel-item {
+            height: 100%;
+        }
+
+        .carousel-inner img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+    h2 {
+        font-weight: 700;
+        color: #4a4a4a;
+    }
+
+    p {
+        color: #555;
+    }
+</style>
+
 <div class="container">
-        <main role="main" class="pb-3">
-            <div class="row">
-                <div class="col-md-6">
-                    <h2>Welcome to Lost Paw</h2>
-                    <p>Your community hub for lost, found, and adoptable pets. We believe every animal deserves a chance to find its way home, and we’re here to make that journey a little easier. Whether you’ve lost a furry friend, found a stray, or are looking to adopt a new companion, Lost Paw connects you with people who care.</p>
-                    <p>Browse our posts to see recent lost and found pets in your area or explore adoption opportunities. With just a few clicks, you can post an ad or reach out to someone in need. Let’s work together to give every pet the loving home they deserve!</p>
-                </div>
-                <div class="col-md-6">
-                    <div id="petCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-                        <div class="carousel-inner">
-                            <div class="carousel-item active">
-                                <img src="~/images/pet1.jpg" class="d-block w-100" alt="Pet 1">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="~/images/pet2.jpg" class="d-block w-100" alt="Pet 2">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="~/images/pet3.jpg" class="d-block w-100" alt="Pet 3">
-                            </div>
-                            <div class="carousel-item">
-                                <img src="~/images/pet4.jpg" class="d-block w-100" alt="Pet 4">
-                            </div>
+    <div class="homepage-card">
+        <div class="row align-items-center">
+            <div class="col-md-6 mb-4 mb-md-0">
+                <h2>Welcome to Lost Paw 🐾</h2>
+                <p>Your community hub for lost, found, and adoptable pets. We believe every animal deserves a chance to find its way home, and we’re here to make that journey a little easier.</p>
+                <p>Whether you’ve lost a furry friend, found a stray, or are looking to adopt a new companion, Lost Paw connects you with people who care.</p>
+                <p>Let’s work together to give every pet the loving home they deserve!</p>
+            </div>
+            <div class="col-md-6">
+                <div id="petCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <img src="~/images/pet1.jpg" class="d-block w-100" alt="Pet 1">
                         </div>
-                        <button class="carousel-control-prev" type="button" data-bs-target="#petCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#petCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
+                        <div class="carousel-item">
+                            <img src="~/images/pet2.jpg" class="d-block w-100" alt="Pet 2">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/images/pet3.jpg" class="d-block w-100" alt="Pet 3">
+                        </div>
+                        <div class="carousel-item">
+                            <img src="~/images/pet4.jpg" class="d-block w-100" alt="Pet 4">
+                        </div>
                     </div>
+                    <button class="carousel-control-prev" type="button" data-bs-target="#petCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </button>
+                    <button class="carousel-control-next" type="button" data-bs-target="#petCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </button>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
+</div>

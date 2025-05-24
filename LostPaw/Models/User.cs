@@ -11,5 +11,8 @@ public class User : IdentityUser
     public string FullName { get; set; }
     public IEnumerable<PetPost> Posts { get; set; }
     public string ProfilePicUrl {  get; set; }
+    public string? AboutMe { get; set; }
+    public bool ShowPhoneNumber { get; set; }
+    public bool ShowFullName { get; set; }
 }
 

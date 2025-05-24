@@ -1,0 +1,46 @@
+﻿@using System.Security.Claims;
+@model IEnumerable<LostPaw.Models.ChatViewModel>
+
+@{
+    ViewData["Title"] = "Chats";
+}
+
+<div class="container my-4">
+    <div class="row justify-content-center">
+        <div class="col-md-10 col-lg-8">
+            <div class="card shadow-lg p-4">
+                <h2 class="text-center mb-4">Your Chats 💬</h2>
+
+                @if (!Model.Any())
+                {
+                    <div class="alert alert-info text-center">
+                        You have no active chats yet.
+                    </div>
+                }
+                else
+                {
+                    <div class="list-group">
+                        @foreach (var chat in Model)
+                        {
+                            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                            var chatPartner = chat.User1.Id == currentUserId ? chat.User2 : chat.User1;
+
+                            <a href="@Url.Action("OpenChat", "Chat", new { chatId = chat.ChatId })"
+                               class="list-group-item list-group-item-action d-flex justify-content-between align-items-center rounded mb-3 shadow-sm"
+                               style="background-color: #fdfbff; border: 1px solid #e1d8f1;">
+                                <div>
+                                    <h5 class="mb-1 pastel-purple-text">@chatPartner.UserName</h5>
+                                    <p class="mb-0 text-muted">@chat.LastMessage?.Content </p>
+                                </div>
+                                @if (chat.UnreadMessagesCount > 0)
+                                {
+                                    <span class="badge bg-danger rounded-pill">@chat.UnreadMessagesCount</span>
+                                }
+                            </a>
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

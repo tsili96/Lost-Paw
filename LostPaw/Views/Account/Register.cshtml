@@ -3,41 +3,44 @@
     ViewData["Title"] = "Register";
 }
 
-<h1>Register</h1>
+<div class="container mt-5" style="max-width: 450px;">
+    <h2 class="text-center mb-4">Create your account</h2>
 
-<form asp-action="Register" method="post">
-    <div asp-validation-summary="All" class="text-danger"></div>
+    <form asp-action="Register" method="post" class="shadow p-4 rounded bg-white">
+        <div asp-validation-summary="All" class="text-danger mb-3"></div>
 
-    <div class="form-group">
-        <label>Email</label>
-        <input asp-for="Email" class="form-control" />
-        <span asp-validation-for="Email" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="Email" class="form-label">Email</label>
+            <input asp-for="Email" class="form-control rounded-pill"  />
+            <span asp-validation-for="Email" class="text-danger small"></span>
+        </div>
 
-    <div class="form-group">
-        <label>Password</label>
-        <input asp-for="Password" type="password" class="form-control" />
-        <span asp-validation-for="Password" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="Password" class="form-label">Password</label>
+            <input asp-for="Password" type="password" class="form-control rounded-pill"  />
+            <span asp-validation-for="Password" class="text-danger small"></span>
+        </div>
 
-    <div class="form-group">
-        <label>Confirm Password</label>
-        <input asp-for="ConfirmPassword" type="password" class="form-control" />
-        <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="ConfirmPassword" class="form-label">Confirm Password</label>
+            <input asp-for="ConfirmPassword" type="password" class="form-control rounded-pill"  />
+            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+        </div>
 
-    <div class="form-group">
-        <label>Full Name</label>
-        <input asp-for="FullName" class="form-control" />
-        <span asp-validation-for="FullName" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="FullName" class="form-label">Full Name</label>
+            <input asp-for="FullName" class="form-control rounded-pill"  />
+            <span asp-validation-for="FullName" class="text-danger small"></span>
+        </div>
 
-    <div class="form-group">
-        <label>Phone Number</label>
-        <input asp-for="PhoneNumber" class="form-control" />
-        <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-    </div>
+        <div class="mb-3">
+            <label asp-for="PhoneNumber" class="form-label">Phone Number</label>
+            <input asp-for="PhoneNumber" class="form-control rounded-pill" />
+            <span asp-validation-for="PhoneNumber" class="text-danger small"></span>
+        </div>
 
-    <br>
-    <button type="submit" class="btn pastel-purple">Register</button>
-</form>
+        <div class="text-center">
+            <button type="submit" class="btn pastel-purple rounded-pill">Register 🐾</button>
+        </div>
+    </form>
+</div>
