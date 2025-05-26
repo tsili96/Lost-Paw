@@ -8,12 +8,37 @@ namespace LostPaw.ModelsConfig
     {
         public void Configure(EntityTypeBuilder<PetPost> builder)
         {
-            builder.HasKey(x => x.Id);
+            builder.HasKey(p => p.Id);
 
-            builder.HasOne(x => x.User).WithMany(x => x.Posts).HasForeignKey(x => x.UserId);
+            builder.Property(p => p.Type)
+                   .IsRequired();
 
-            //builder.Property(x => x.Title).IsRequired().HasMaxLength(50);
-            builder.OwnsOne(x => x.Address);
+            builder.Property(p => p.Title)
+                   .IsRequired()
+                   .HasMaxLength(100);
+
+            builder.Property(p => p.Description)
+                   .IsRequired()
+                   .HasMaxLength(500);
+
+            builder.Property(p => p.ImageUrl)
+                   .HasMaxLength(255);
+
+            builder.Property(p => p.ChipNumber)
+                   .HasMaxLength(50);
+
+            builder.Property(p => p.DateCreated)
+                   .IsRequired();
+
+            builder.HasOne(p => p.User)
+                   .WithMany(u => u.Posts)
+                   .HasForeignKey(p => p.UserId)
+                   .OnDelete(DeleteBehavior.Cascade);
+
+            builder.HasOne(p => p.Address)
+                   .WithMany()
+                   .HasForeignKey(p => p.AddressId)
+                   .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

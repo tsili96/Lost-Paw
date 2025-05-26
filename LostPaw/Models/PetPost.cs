@@ -6,17 +6,12 @@ namespace LostPaw.Models
     public class PetPost
     {
         public int Id { get; set; }
-        [Required]
         public PostType Type { get; set; }
-        [Required]
-        [MaxLength(100)]
         public string Title { get; set; }
-        [Required]
-        [MaxLength(500)]
         public string Description { get; set; }
         public string? UserId { get; set; }
         public User? User { get; set; }
-        public string ImageUrl { get; set; } //add video too
+        public string ImageUrl { get; set; }
         public int AddressId { get; set; }
         public Address Address { get; set; }
         public string ChipNumber { get; set; }
