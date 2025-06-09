@@ -29,6 +29,8 @@ namespace LostPaw.ModelsConfig
             builder.HasMany(c => c.Messages)
                    .WithOne(m => m.Chat)
                    .HasForeignKey(m => m.ChatId);
+
+
         }
     }
 }

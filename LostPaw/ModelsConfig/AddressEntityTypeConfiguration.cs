@@ -19,7 +19,7 @@ namespace LostPaw.ModelsConfig
                    .HasMaxLength(100);
 
             builder.Property(a => a.Street)
-                   .HasMaxLength(100);
+                   .HasMaxLength(500);
 
             builder.Property(a => a.Number)
                    .HasMaxLength(10);
@@ -28,7 +28,7 @@ namespace LostPaw.ModelsConfig
                    .HasMaxLength(20);
 
             builder.Property(a => a.Region)
-                   .HasMaxLength(100);
+                   .HasMaxLength(500);
         }
     }
 }

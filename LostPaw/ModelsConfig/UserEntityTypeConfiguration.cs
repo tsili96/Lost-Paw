@@ -9,13 +9,13 @@ namespace LostPaw.ModelsConfig
         public void Configure(EntityTypeBuilder<User> builder)
         {
             builder.Property(u => u.FullName)
-                   .HasMaxLength(100);
+                   .HasMaxLength(500);
 
             builder.Property(u => u.ProfilePicUrl)
                    .HasMaxLength(255);
 
             builder.Property(u => u.AboutMe)
-                   .HasMaxLength(1000);
+                   .HasMaxLength(2000);
 
             builder.Property(u => u.ShowPhoneNumber)
                    .HasDefaultValue(false);

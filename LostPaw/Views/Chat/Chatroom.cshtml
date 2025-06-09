@@ -35,7 +35,7 @@
                 </div>
 
                 <form method="post" asp-action="SendMessage" class="d-flex gap-2">
-                    <input type="hidden" id="senderId" value="@currentUserId" />
+                    <input type="hidden" id="senderId" value="@currentUserId" data-username="@User.Identity.Name" />
                     <input type="hidden" id="chatId" name="chatId" value="@Model.Id" />
                     <textarea id="messageInput" name="message" class="form-control rounded-pill px-3" rows="1" placeholder="Type a message..." required></textarea>
                     <button type="button" id="sendMessageBtn" class="btn pastel-purple rounded-pill px-4">Send</button>

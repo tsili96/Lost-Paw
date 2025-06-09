@@ -5,12 +5,41 @@
 // Receive new messages in real-time
 connection.on("ReceiveMessage", (sender, message) => {
     const messageList = document.getElementById("messagesList");
-    if (messageList) {
-        const messageElement = document.createElement("div");
-        messageElement.innerText = `${sender}: ${message}`;
-        messageList.appendChild(messageElement);
+    const currentUserId = document.getElementById("senderId")?.value;
+
+    if (messageList && currentUserId) {
+        const isSender = sender === document.querySelector("input#senderId").dataset.username;
+
+        const messageWrapper = document.createElement("div");
+        messageWrapper.className = `mb-3 d-flex flex-column ${isSender ? "align-items-end" : "align-items-start"}`;
+
+        const senderDiv = document.createElement("div");
+        senderDiv.className = "small fw-semibold text-muted mb-1";
+        senderDiv.textContent = sender;
+
+        const bubbleDiv = document.createElement("div");
+        bubbleDiv.className = "px-3 py-2 rounded-4 shadow-sm";
+        bubbleDiv.style.maxWidth = "60%";
+        bubbleDiv.style.backgroundColor = isSender ? "#b39ddb" : "#a5d6a7";
+        bubbleDiv.style.color = "white";
+        bubbleDiv.style.fontSize = "0.95rem";
+        bubbleDiv.style.lineHeight = "1.4";
+        bubbleDiv.textContent = message;
+
+        const timeDiv = document.createElement("div");
+        timeDiv.className = "small text-muted mt-1";
+        timeDiv.style.fontSize = "0.75rem";
+        timeDiv.textContent = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+        messageWrapper.appendChild(senderDiv);
+        messageWrapper.appendChild(bubbleDiv);
+        messageWrapper.appendChild(timeDiv);
+
+        messageList.appendChild(messageWrapper);
+        messageList.scrollTop = messageList.scrollHeight;
     }
 });
+
 
 // Update chat list in real-time
 connection.on("UpdateChatList", (chatId, sender, message) => {

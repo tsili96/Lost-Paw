@@ -15,7 +15,7 @@ namespace LostPaw.ModelsConfig
 
             builder.Property(p => p.Title)
                    .IsRequired()
-                   .HasMaxLength(100);
+                   .HasMaxLength(500);
 
             builder.Property(p => p.Description)
                    .IsRequired()

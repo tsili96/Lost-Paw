@@ -49,6 +49,7 @@ namespace LostPaw.Hubs
                 ReceiverId = receiverId
             };
 
+
             _context.ChatMessages.Add(chatMessage);
             await _context.SaveChangesAsync();
 
