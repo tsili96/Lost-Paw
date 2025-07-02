@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using LostPaw.Data;
 using LostPaw.Models;
 using LostPaw.Hubs;
+using LostPaw.AppConfig;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,6 +26,9 @@ builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfi
 builder.Services.ConfigureApplicationCookie(options => {
     options.LoginPath = "/Account/Login";
 });
+
+builder.Services.Configure<GoogleConfig>(builder.Configuration.GetSection(GoogleConfig.SectionName));
+
 
 var app = builder.Build();
 
