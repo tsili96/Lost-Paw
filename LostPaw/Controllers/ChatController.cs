@@ -29,7 +29,6 @@ namespace LostPaw.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            // Fetch the list of active chats for the user
 
             var chats = await _context.Chats
                 .Where(c => c.User1Id == userId || c.User2Id == userId)

@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LostPaw.ViewModels
 {
-    public class DisplayPostViewModel
+    public class DisplayPostViewModel 
     {
         public int Id { get; set; }
         public PostType Type { get; set; }

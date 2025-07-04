@@ -7,6 +7,8 @@ using LostPaw.Data;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using LostPaw.ViewModels;
 using Microsoft.EntityFrameworkCore;
+using LostPaw.AppConfig;
+using Microsoft.Extensions.Options;
 
 namespace LostPaw.Controllers
 {
@@ -15,11 +17,13 @@ namespace LostPaw.Controllers
     {
         private readonly LostPawDbContext _context;
         private readonly UserManager<User> _userManager;
+        private readonly IConfiguration _configuration;
 
-        public PostsController(LostPawDbContext context, UserManager<User> userManager)
+        public PostsController(LostPawDbContext context, UserManager<User> userManager, IConfiguration configuration)
         {
             _context = context;
             _userManager = userManager;
+            _configuration = configuration;
         }
 
         [AllowAnonymous]
@@ -84,6 +88,7 @@ namespace LostPaw.Controllers
         [HttpGet]
         public IActionResult Create()
         {
+            ViewBag.GoogleMapsApiKey = _configuration["GoogleConfig:ApiKey"];
             return View("CreatePost");  
         }
 
@@ -93,13 +98,6 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
-                //IEnumerable<ModelError> allErrors = ModelState.Values.SelectMany(v => v.Errors);
-              
-                //foreach (var error in allErrors)
-                //{
-                //    Console.WriteLine(error.ErrorMessage); 
-                //}
-
                 var user = await _userManager.GetUserAsync(User);
                 var existingAddress = await _context.Addresses.FirstOrDefaultAsync(a =>
                     a.Street == model.Address.Street &&
@@ -187,8 +185,8 @@ namespace LostPaw.Controllers
                 Address =post.Address 
             };
 
-            ViewData["CurrentImageUrl"] = post.ImageUrl; 
-
+            ViewData["CurrentImageUrl"] = post.ImageUrl;
+            ViewBag.GoogleMapsApiKey = _configuration["GoogleConfig:ApiKey"];
             return View("EditPost",model);
         }
 
@@ -232,7 +230,6 @@ namespace LostPaw.Controllers
 
             var existingPost = await _context.Posts.FindAsync(model.Id);
             ViewData["CurrentImageUrl"] = existingPost?.ImageUrl;
-
             return View(model);
         }
 
@@ -261,7 +258,7 @@ namespace LostPaw.Controllers
             {
                 return NotFound();
             }
-
+            ViewBag.GoogleMapsApiKey = _configuration["GoogleConfig:ApiKey"];
             return View("PostDetails", post);
         }
 

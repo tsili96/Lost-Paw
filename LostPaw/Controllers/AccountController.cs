@@ -31,11 +31,24 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Generate the username
-                var userCount = _userManager.Users.Count();
-                var generatedUserName = $"lostpawuser{userCount + 1}";
+                int counter = 1;
+                string baseUsername = "lostpawuser";
+                string generatedUserName = baseUsername + counter;
 
-                var user = new User { UserName = generatedUserName, Email = req.Email, FullName = req.FullName, PhoneNumber = req.PhoneNumber };
+                while (await _userManager.FindByNameAsync(generatedUserName) != null)
+                {
+                    counter++;
+                    generatedUserName = baseUsername + counter;
+                }
+                var defaultProfilePicUrl = "/images/profile_pics/defaultProfilePic.png";
+                var user = new User
+                {
+                    UserName = generatedUserName,
+                    Email = req.Email,
+                    FullName = req.FullName,
+                    PhoneNumber = req.PhoneNumber,
+                    ProfilePicUrl = defaultProfilePicUrl
+                };
                 var result = await _userManager.CreateAsync(user, req.Password);
                 if (result.Succeeded)
                 {
@@ -58,12 +71,10 @@ namespace LostPaw.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-       // [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Login([FromForm] ViewModels.LoginViewModel req)
         {
             if (ModelState.IsValid)
             {
-                // Find the user by email
                 var user = await _userManager.FindByEmailAsync(req.Email);
                 if (user == null)
                 {
