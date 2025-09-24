@@ -21,6 +21,10 @@ namespace LostPaw.ViewModels
         public string ConfirmPassword { get; set; }
 
         [Required]
+        [Display(Name = "Username")]
+        public string Username { get; set; }
+
+        [Required]
         [Display(Name = "Full Name")]
         public string FullName { get; set; }
 

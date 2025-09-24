@@ -33,10 +33,12 @@
                     <div class="mb-3">
                         <label asp-for="ProfilePicUrl" class="form-label">Profile Picture</label>
                         <input type="file" name="ProfilePicture" class="form-control" />
+                        <span asp-validation-for="ProfilePicture" class="text-danger small"></span>
                     </div>
                     <div class="mb-3">
                         <label asp-for="Username" class="form-label">Username</label>
                         <input asp-for="Username" class="form-control" />
+                        <span asp-validation-for="Username" class="text-danger small"></span>
                     </div>
 
                     <div class="mb-3">

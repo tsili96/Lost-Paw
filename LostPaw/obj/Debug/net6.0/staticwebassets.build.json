@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Lph/xmLp3E5NHdHLW/nhgCIJ1xhnqtRbWSmcDEltd4M=",
+  "Hash": "4v8o+JSTpWI4unMYj1xuboB7roFxDVWMb7FAAJF7m8Y=",
   "Source": "LostPaw",
   "BasePath": "_content/LostPaw",
   "Mode": "Default",
@@ -1224,6 +1224,23 @@
       "OriginalItemSpec": "wwwroot\\images\\4e6d131c-658c-4e5c-bfdf-dad65a3379c3.jpg"
     },
     {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\850f6d66-3c12-4f84-a447-66e3c06a232a.jpg",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "images/850f6d66-3c12-4f84-a447-66e3c06a232a.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\850f6d66-3c12-4f84-a447-66e3c06a232a.jpg"
+    },
+    {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\8f17e27d-ed4b-4c93-92fd-3a598a465b52.jpg",
       "SourceId": "LostPaw",
       "SourceType": "Discovered",
@@ -1732,6 +1749,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\images\\profile_pics\\876b9209-ef68-4c8b-a02f-86a96184f674_3468377.png"
+    },
+    {
+      "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\90155d55-46c3-4ccd-a3eb-c166526e60b6_woman.png",
+      "SourceId": "LostPaw",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\",
+      "BasePath": "_content/LostPaw",
+      "RelativePath": "images/profile_pics/90155d55-46c3-4ccd-a3eb-c166526e60b6_woman.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\images\\profile_pics\\90155d55-46c3-4ccd-a3eb-c166526e60b6_woman.png"
     },
     {
       "Identity": "C:\\Users\\linat\\Desktop\\diplomatiki\\LostPaw\\LostPaw\\wwwroot\\images\\profile_pics\\9b408cf2-f524-4d25-a893-13f782294d67_woman.png",

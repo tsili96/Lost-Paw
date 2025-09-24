@@ -28,6 +28,11 @@
         </div>
 
         <div class="mb-3">
+            <label asp-for="Username" class="form-label">Username</label>
+            <input asp-for="Username" class="form-control rounded-pill" />
+            <span asp-validation-for="Username" class="text-danger small"></span>
+        </div>
+        <div class="mb-3">
             <label asp-for="FullName" class="form-label">Full Name</label>
             <input asp-for="FullName" class="form-control rounded-pill"  />
             <span asp-validation-for="FullName" class="text-danger small"></span>

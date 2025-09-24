@@ -1,4 +1,5 @@
-﻿namespace LostPaw.ViewModels
+﻿using Microsoft.AspNetCore.Http;
+namespace LostPaw.ViewModels
 {
     public class EditProfileViewModel
     {
@@ -12,6 +13,6 @@
         public bool ShowPhoneNumber { get; set; }
         public bool ShowFullName { get; set; }
         public bool IsCurrentUser { get; set; }
-       
+        public IFormFile? ProfilePicture { get; set; }
     }
 }

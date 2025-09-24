@@ -27,40 +27,41 @@ namespace LostPaw.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register([FromForm] ViewModels.RegisterViewModel req)
+        public async Task<IActionResult> Register([FromForm] ViewModels.RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                int counter = 1;
-                string baseUsername = "lostpawuser";
-                string generatedUserName = baseUsername + counter;
-
-                while (await _userManager.FindByNameAsync(generatedUserName) != null)
+                var existingUser = await _userManager.FindByNameAsync(model.Username);
+                if (existingUser != null)
                 {
-                    counter++;
-                    generatedUserName = baseUsername + counter;
+                    ModelState.AddModelError("Username", "This username is taken.");
+                    return View(model);
                 }
+
                 var defaultProfilePicUrl = "/images/profile_pics/defaultProfilePic.png";
+
                 var user = new User
                 {
-                    UserName = generatedUserName,
-                    Email = req.Email,
-                    FullName = req.FullName,
-                    PhoneNumber = req.PhoneNumber,
+                    UserName = model.Username,
+                    Email = model.Email,
+                    FullName = model.FullName,
+                    PhoneNumber = model.PhoneNumber,
                     ProfilePicUrl = defaultProfilePicUrl
                 };
-                var result = await _userManager.CreateAsync(user, req.Password);
+
+                var result = await _userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     return RedirectToAction("Index", "Home");
                 }
+
                 foreach (var error in result.Errors)
                 {
                     ModelState.AddModelError(string.Empty, error.Description);
                 }
             }
-            return View();
+            return View(model);
         }
 
         [HttpGet]
