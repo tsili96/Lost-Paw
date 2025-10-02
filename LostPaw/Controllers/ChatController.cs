@@ -10,6 +10,7 @@ using System.Diagnostics;
 
 namespace LostPaw.Controllers
 {
+    [Authorize]
     public class ChatController : Controller
     {
         private readonly LostPawDbContext _context;
@@ -50,7 +51,6 @@ namespace LostPaw.Controllers
             return View(chatViewModel);
         }
 
-        [Authorize]
         [HttpGet]
         public async Task<IActionResult> GetUnreadCount()
         {
@@ -76,8 +76,10 @@ namespace LostPaw.Controllers
                 return NotFound();
             }
 
-            // Mark all messages as read
-            foreach (var message in chat.Messages.Where(m => !m.IsRead))
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Mark only the messages that were sent to the current user as read
+            foreach (var message in chat.Messages.Where(m => !m.IsRead && m.ReceiverId == currentUserId))
             {
                 message.IsRead = true;
             }
@@ -86,15 +88,16 @@ namespace LostPaw.Controllers
 
             return View("ChatRoom", chat);
         }
-        public async Task<IActionResult> StartChat(string recipientUsername)
+        public async Task<IActionResult> StartChat(string recipientId)
         {
-            if (string.IsNullOrEmpty(recipientUsername))
+            if (string.IsNullOrEmpty(recipientId))
             {
-                return BadRequest("Recipient username is required.");
+                return BadRequest("Recipient Id is required.");
             }
 
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.UserName == User.Identity.Name);
-            var recipient = await _context.Users.FirstOrDefaultAsync(u => u.UserName == recipientUsername);
+            var currentUserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var currentUser = await _context.Users.FindAsync(currentUserId);
+            var recipient = await _context.Users.FindAsync(recipientId);
 
             if (recipient == null)
             {
@@ -128,10 +131,12 @@ namespace LostPaw.Controllers
             // Redirect to the newly created chat room
             return RedirectToAction("OpenChat", new { chatId = newChat.Id });
         }
+
+
         [HttpPost]
         public async Task<IActionResult> SendMessage(int chatId, string message)
         {
-            var senderId = _context.Users.FirstOrDefault(u => u.UserName == User.Identity.Name)?.Id;
+            var senderId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
             if (string.IsNullOrEmpty(message))
             {

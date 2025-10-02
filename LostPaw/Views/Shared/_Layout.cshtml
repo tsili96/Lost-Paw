@@ -40,7 +40,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" href="@Url.Action("Profile", "Profile", new { username = User.Identity.Name })">My Profile</a>
+                                <a class="nav-link text-dark" href="@Url.Action("ViewProfile", "Profile", new { username = User.Identity.Name })">My Profile</a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark position-relative" href="@Url.Action("Index", "Chat")">

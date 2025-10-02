@@ -1,9 +1,17 @@
 ﻿@model LostPaw.ViewModels.ProfileViewModel
 @using System.Security.Claims
+@using Microsoft.AspNetCore.Identity
+@inject UserManager<LostPaw.Models.User> UserManager
 
 @{
     ViewData["Title"] = "User Profile";
-    bool isCurrentUser = User.Identity.IsAuthenticated && User.Identity.Name == Model.Username;
+    bool isCurrentUser = false;
+    if (User.Identity.IsAuthenticated)
+    {
+        var currentUserId = UserManager.GetUserId(User);
+        isCurrentUser = currentUserId == Model.UserId;
+    }
+
 }
 
 <div class="container my-4">
@@ -48,13 +56,13 @@
             @if (isCurrentUser)
             {
                 <div class="text-center mt-3">
-                    <a asp-action="Edit" class="btn pastel-green">Edit Profile</a>
+                    <a asp-action="EditProfile" class="btn pastel-green">Edit Profile</a>
                 </div>
             }
             else if (User.Identity.IsAuthenticated)
             {
                 <div class="text-center mt-3">
-                    <a href="@Url.Action("StartChat", "Chat", new { recipientUsername = Model.Username })" class="btn pastel-green">Send Message</a>
+                    <a href="@Url.Action("StartChat", "Chat", new { recipientId = Model.UserId })" class="btn pastel-green">Send Message</a>
                 </div>
             }
         </div>

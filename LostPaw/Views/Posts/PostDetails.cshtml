@@ -21,7 +21,7 @@
                 <div class="mb-3">
                     <p class="mb-1">
                         <strong>Posted by:</strong>
-                        <a href="@Url.Action("Profile", "Profile", new { username = Model.Username })" class="text-decoration-none text-primary">@Model.Username</a>
+                        <a href="@Url.Action("ViewProfile", "Profile", new { id = Model.UserId })" class="text-decoration-none text-primary">@Model.Username</a>
                     </p>
                     <p class="mb-1"><strong>Type:</strong> @Model.Type</p>
                     <p class="mb-1"><strong>Description:</strong> @Model.Description</p>

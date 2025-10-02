@@ -22,26 +22,38 @@ namespace LostPaw.Controllers
             _webHostEnvironment = webHostEnvironment;
         }
 
-        
-        [AllowAnonymous]
-        public async Task<IActionResult> Profile(string username)
+        //method to get the current user's Id
+        private string GetCurrentUserId()
         {
-            if (string.IsNullOrEmpty(username))
+            return _userManager.GetUserId(User);
+        }
+
+
+        [AllowAnonymous]
+        public async Task<IActionResult> ViewProfile(string id)
+        {
+            if (string.IsNullOrEmpty(id))
             {
                 return NotFound();
             }
 
+            // load the user along with their posts from the database
             var user = await _userManager.Users
                 .Include(u => u.Posts)
-                .FirstOrDefaultAsync(u => u.UserName == username);
+                .FirstOrDefaultAsync(u => u.Id == id);
 
+            // return 404 if user is not found
             if (user == null)
             {
                 return NotFound();
             }
 
+            var currentUserId = GetCurrentUserId();
+
+            // map user data to ProfileViewModel
             var viewModel = new ProfileViewModel
             {
+                UserId = user.Id,
                 Username = user.UserName,
                 Email = user.Email,
                 Fullname = user.ShowFullName ? user.FullName : null,
@@ -59,20 +71,34 @@ namespace LostPaw.Controllers
                     DateLostFound = p.DateLostFound,
                     Username = user.UserName
                 }).ToList(),
-                IsCurrentUser = User.Identity.Name == user.UserName
+
+                // check if current user views their own profile
+                IsCurrentUser = currentUserId == user.Id
             };
 
             return View(viewModel);
         }
 
-        public async Task<IActionResult> Edit()
+        //accessible only by profile owner
+        public async Task<IActionResult> EditProfile()
         {
+            //current user
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound();
             }
 
+            var currentUserId = GetCurrentUserId();
+
+            //prevention from editing other users' profiles
+            if (currentUserId != user.Id)
+            {
+                return Forbid();
+            }
+
+            //map user data to EditProfileViewModel
             var viewModel = new EditProfileViewModel
             {
                 UserId = user.Id,
@@ -90,33 +116,55 @@ namespace LostPaw.Controllers
             return View(viewModel);
         }
 
+
         [HttpPost]
-        public async Task<IActionResult> Edit(EditProfileViewModel model, IFormFile ProfilePicture)
+        public async Task<IActionResult> EditProfile(EditProfileViewModel model, IFormFile ProfilePicture)
         {
+            //current user
             var user = await _userManager.GetUserAsync(User);
+
             if (user == null)
             {
                 return NotFound();
             }
+
+            var currentUserId = GetCurrentUserId();
+
+            //prevention from editing other users' profiles
+            if (currentUserId != user.Id)
+            {
+                return Forbid();
+            }
+
+            //check if the new username is already taken
             var existingUser = await _userManager.FindByNameAsync(model.Username);
+
             if (existingUser != null && existingUser.Id != user.Id)
             {
                 ModelState.AddModelError("Username", "This username is already taken.");
                 return View(model);
             }
+
+            //update username
             user.UserName = model.Username;
+
+            //upload new profile picture
             if (ProfilePicture != null && ProfilePicture.Length > 0)
             {
                 var fileExtension = Path.GetExtension(ProfilePicture.FileName).ToLower();
 
+                //accepted image file types
                 if (fileExtension == ".jpg" || fileExtension == ".jpeg" || fileExtension == ".png" || fileExtension == ".gif")
                 {
                     var uploadsFolder = Path.Combine(_webHostEnvironment.WebRootPath, "images", "profile_pics");
+
+                    //folder creation if it doesn't exist
                     if (!Directory.Exists(uploadsFolder))
                     {
                         Directory.CreateDirectory(uploadsFolder);
                     }
 
+                    //generate a unique file name and save the image
                     var uniqueFileName = Guid.NewGuid().ToString() + "_" + ProfilePicture.FileName;
                     var filePath = Path.Combine(uploadsFolder, uniqueFileName);
 
@@ -125,6 +173,7 @@ namespace LostPaw.Controllers
                         await ProfilePicture.CopyToAsync(fileStream);
                     }
 
+                    //update user's profile picture URL
                     user.ProfilePicUrl = "/images/profile_pics/" + uniqueFileName; 
                 }
                 else
@@ -132,17 +181,24 @@ namespace LostPaw.Controllers
                     ModelState.AddModelError("ProfilePicture", "Please upload a valid image file (jpg, jpeg, png, gif).");
                 }
             }
+
+            //update other user data 
             user.FullName = model.Fullname;
             user.PhoneNumber = model.PhoneNumber;
             user.AboutMe = model.AboutMe;
             user.ShowPhoneNumber = model.ShowPhoneNumber;
             user.ShowFullName = model.ShowFullName;
 
+            //save changes to db
             var result = await _userManager.UpdateAsync(user);
+
             if (result.Succeeded)
             {
+                //refresh sign-in to update authentication cookie with new info
                 await _signInManager.RefreshSignInAsync(user);
-                return RedirectToAction("Profile", new { username = user.UserName });
+
+                //redirect to the updated profile view
+                return RedirectToAction("ViewProfile", new { id = user.Id });
             }
 
             return View(model);

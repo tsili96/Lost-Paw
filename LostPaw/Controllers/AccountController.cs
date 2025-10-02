@@ -10,15 +10,13 @@ namespace LostPaw.Controllers
     {
         private readonly SignInManager<User> _signInManager;
         private readonly UserManager<User> _userManager;
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
         public AccountController(SignInManager<User> signInManager, UserManager<User> userManager)
         {
             _signInManager = signInManager;
             _userManager = userManager;
         }
+
         [HttpGet]
         public IActionResult Register()
         {
@@ -31,6 +29,15 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
+                //check if email already exists
+                var existingEmail = await _userManager.FindByEmailAsync(model.Email);
+                if (existingEmail != null)
+                {
+                    ModelState.AddModelError("Email", "This email is already registered.");
+                    return View(model);
+                }
+
+                //check if username already exists
                 var existingUser = await _userManager.FindByNameAsync(model.Username);
                 if (existingUser != null)
                 {
@@ -38,6 +45,7 @@ namespace LostPaw.Controllers
                     return View(model);
                 }
 
+                //give user a default profile picture which can change later
                 var defaultProfilePicUrl = "/images/profile_pics/defaultProfilePic.png";
 
                 var user = new User
@@ -50,6 +58,8 @@ namespace LostPaw.Controllers
                 };
 
                 var result = await _userManager.CreateAsync(user, model.Password);
+
+                //after successful registration automatically sign in the user and redirect to homepage
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
@@ -76,6 +86,7 @@ namespace LostPaw.Controllers
         {
             if (ModelState.IsValid)
             {
+                //find the user by email
                 var user = await _userManager.FindByEmailAsync(req.Email);
                 if (user == null)
                 {
@@ -83,7 +94,10 @@ namespace LostPaw.Controllers
                     return View();
                 }
 
+                //check if the password is correct and if the user is locked out
                 var result = await _signInManager.CheckPasswordSignInAsync(user, req.Password, lockoutOnFailure: false);
+
+                //after successful login redirect user to homepage
                 if (result.Succeeded)
                 {
                     await _signInManager.SignInAsync(user, req.RememberMe);
@@ -100,11 +114,15 @@ namespace LostPaw.Controllers
             }
             return View();
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Logout()
         {
-            await _signInManager.SignOutAsync();  
+            // sign out the currently logged-in user and clear authentication cookie
+            await _signInManager.SignOutAsync(); 
+            
+            //redirect user to homepage
             return RedirectToAction("Index", "Home");  
         }
     }
